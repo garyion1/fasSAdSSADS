@@ -1,0 +1,40 @@
+Compiled from "KryptioniansAddon.java"
+final class dev.notdutt.spawnernoti.KryptioniansAddon$OrbitFactory implements meteordevelopment.orbit.listeners.LambdaListener$Factory {
+  public dev.notdutt.spawnernoti.KryptioniansAddon$OrbitFactory();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: invokespecial #22                 // Method java/lang/Object."<init>":()V
+       4: return
+    LineNumberTable:
+      line 60: 0
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0       5     0  this   Ldev/notdutt/spawnernoti/KryptioniansAddon$OrbitFactory;
+
+  public java.lang.invoke.MethodHandles$Lookup create(java.lang.reflect.Method, java.lang.Class<?>) throws java.lang.reflect.InvocationTargetException, java.lang.IllegalAccessException;
+    descriptor: (Ljava/lang/reflect/Method;Ljava/lang/Class;)Ljava/lang/invoke/MethodHandles$Lookup;
+    Code:
+       0: aload_1
+       1: aconst_null
+       2: iconst_2
+       3: anewarray     #4                  // class java/lang/Object
+       6: dup
+       7: iconst_0
+       8: aload_2
+       9: aastore
+      10: dup
+      11: iconst_1
+      12: invokestatic  #37                 // Method java/lang/invoke/MethodHandles.lookup:()Ljava/lang/invoke/MethodHandles$Lookup;
+      15: aastore
+      16: invokevirtual #43                 // Method java/lang/reflect/Method.invoke:(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+      19: checkcast     #11                 // class java/lang/invoke/MethodHandles$Lookup
+      22: areturn
+    LineNumberTable:
+      line 64: 0
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0      23     0  this   Ldev/notdutt/spawnernoti/KryptioniansAddon$OrbitFactory;
+          0      23     1 lookupInMethod   Ljava/lang/reflect/Method;
+          0      23     2 klass   Ljava/lang/Class;
+}

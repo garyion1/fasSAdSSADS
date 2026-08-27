@@ -1,0 +1,481 @@
+Compiled from "SpawnerNotifierToast.java"
+public final class dev.notdutt.spawnernoti.ui.SpawnerNotifierToast implements net.minecraft.class_368 {
+  private static final net.minecraft.class_2960 TEXTURE;
+    descriptor: Lnet/minecraft/class_2960;
+
+  private static final net.minecraft.class_1799 ICON;
+    descriptor: Lnet/minecraft/class_1799;
+
+  private static final int WIDTH;
+    descriptor: I
+
+  private static final int HEIGHT;
+    descriptor: I
+
+  private static final int STRIPE_W;
+    descriptor: I
+
+  private static final int PAD;
+    descriptor: I
+
+  private static final int TEXT_X;
+    descriptor: I
+
+  private static final int BAR_Y;
+    descriptor: I
+
+  private static final int BAR_H;
+    descriptor: I
+
+  private static final int BG;
+    descriptor: I
+
+  private static final int TITLE;
+    descriptor: I
+
+  private static final int SUB;
+    descriptor: I
+
+  private static final int BAR_BG;
+    descriptor: I
+
+  private final java.lang.String mobType;
+    descriptor: Ljava/lang/String;
+
+  private final java.lang.String subtitle;
+    descriptor: Ljava/lang/String;
+
+  private final java.lang.String coords;
+    descriptor: Ljava/lang/String;
+
+  private final net.minecraft.class_1113 sound;
+    descriptor: Lnet/minecraft/class_1113;
+
+  private final long duration;
+    descriptor: J
+
+  private final int accentColor;
+    descriptor: I
+
+  private long start;
+    descriptor: J
+
+  private boolean playedSound;
+    descriptor: Z
+
+  private net.minecraft.class_368$class_369 visibility;
+    descriptor: Lnet/minecraft/class_368$class_369;
+
+  public dev.notdutt.spawnernoti.ui.SpawnerNotifierToast(java.lang.String, int, int, int, long, boolean, int);
+    descriptor: (Ljava/lang/String;IIIJZI)V
+    Code:
+       0: aload_0
+       1: invokespecial #76                 // Method java/lang/Object."<init>":()V
+       4: aload_0
+       5: ldc2_w        #77                 // long -1l
+       8: putfield      #80                 // Field start:J
+      11: aload_0
+      12: getstatic     #83                 // Field net/minecraft/class_368$class_369.field_2209:Lnet/minecraft/class_368$class_369;
+      15: putfield      #85                 // Field visibility:Lnet/minecraft/class_368$class_369;
+      18: aload_0
+      19: ldc2_w        #86                 // long 2500l
+      22: lload         5
+      24: invokestatic  #93                 // Method java/lang/Math.max:(JJ)J
+      27: putfield      #95                 // Field duration:J
+      30: aload_0
+      31: aload_1
+      32: putfield      #97                 // Field mobType:Ljava/lang/String;
+      35: aload_0
+      36: ldc           #98                 // int -16777216
+      38: iload         8
+      40: ldc           #99                 // int 16777215
+      42: iand
+      43: ior
+      44: putfield      #101                // Field accentColor:I
+      47: getstatic     #107                // Field meteordevelopment/meteorclient/MeteorClient.mc:Lnet/minecraft/class_310;
+      50: getfield      #113                // Field net/minecraft/class_310.field_1724:Lnet/minecraft/class_746;
+      53: ifnull        68
+      56: getstatic     #107                // Field meteordevelopment/meteorclient/MeteorClient.mc:Lnet/minecraft/class_310;
+      59: getfield      #113                // Field net/minecraft/class_310.field_1724:Lnet/minecraft/class_746;
+      62: invokevirtual #119                // Method net/minecraft/class_746.method_31478:()I
+      65: goto          69
+      68: iload_3
+      69: istore        9
+      71: iload_3
+      72: iload         9
+      74: if_icmpge     82
+      77: ldc           #123                // String below
+      79: goto          95
+      82: iload_3
+      83: iload         9
+      85: if_icmple     93
+      88: ldc           #125                // String above
+      90: goto          95
+      93: ldc           #127                // String nearby
+      95: astore        10
+      97: aload_0
+      98: aload         10
+     100: invokedynamic #139,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     105: putfield      #141                // Field subtitle:Ljava/lang/String;
+     108: aload_0
+     109: iload_2
+     110: iload_3
+     111: iload         4
+     113: invokedynamic #146,  0            // InvokeDynamic #1:makeConcatWithConstants:(III)Ljava/lang/String;
+     118: putfield      #148                // Field coords:Ljava/lang/String;
+     121: aload_0
+     122: iload         7
+     124: ifeq          144
+     127: getstatic     #154                // Field net/minecraft/class_3417.field_14725:Lnet/minecraft/class_6880$class_6883;
+     130: invokevirtual #158                // Method net/minecraft/class_6880$class_6883.comp_349:()Ljava/lang/Object;
+     133: checkcast     #160                // class net/minecraft/class_3414
+     136: fconst_1
+     137: fconst_1
+     138: invokestatic  #166                // Method net/minecraft/class_1109.method_4757:(Lnet/minecraft/class_3414;FF)Lnet/minecraft/class_1109;
+     141: goto          145
+     144: aconst_null
+     145: putfield      #170                // Field sound:Lnet/minecraft/class_1113;
+     148: return
+    LineNumberTable:
+      line 44: 0
+      line 39: 4
+      line 41: 11
+      line 45: 18
+      line 46: 30
+      line 47: 35
+      line 48: 47
+      line 49: 71
+      line 50: 97
+      line 51: 108
+      line 52: 121
+      line 53: 122
+      line 54: 127
+      line 55: 130
+      line 54: 138
+      line 56: 144
+      line 57: 148
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0     149     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+          0     149     1 mobType   Ljava/lang/String;
+          0     149     2     x   I
+          0     149     3     y   I
+          0     149     4     z   I
+          0     149     5 durationMs   J
+          0     149     7 playSound   Z
+          0     149     8 progressBarRgb   I
+         71      78     9 playerY   I
+         97      52    10 depth   Ljava/lang/String;
+
+  public int method_29049();
+    descriptor: ()I
+    Code:
+       0: sipush        160
+       3: ireturn
+    LineNumberTable:
+      line 60: 0
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0       4     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+
+  public int method_29050();
+    descriptor: ()I
+    Code:
+       0: bipush        32
+       2: ireturn
+    LineNumberTable:
+      line 64: 0
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0       3     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+
+  public net.minecraft.class_368$class_369 method_61988();
+    descriptor: ()Lnet/minecraft/class_368$class_369;
+    Code:
+       0: aload_0
+       1: getfield      #85                 // Field visibility:Lnet/minecraft/class_368$class_369;
+       4: areturn
+    LineNumberTable:
+      line 68: 0
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0       5     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+
+  public void method_61989(net.minecraft.class_374, long);
+    descriptor: (Lnet/minecraft/class_374;J)V
+    Code:
+       0: aload_0
+       1: getfield      #80                 // Field start:J
+       4: ldc2_w        #77                 // long -1l
+       7: lcmp
+       8: ifne          16
+      11: aload_0
+      12: lload_2
+      13: putfield      #80                 // Field start:J
+      16: aload_0
+      17: lload_2
+      18: aload_0
+      19: getfield      #80                 // Field start:J
+      22: lsub
+      23: aload_0
+      24: getfield      #95                 // Field duration:J
+      27: lcmp
+      28: iflt          37
+      31: getstatic     #83                 // Field net/minecraft/class_368$class_369.field_2209:Lnet/minecraft/class_368$class_369;
+      34: goto          40
+      37: getstatic     #185                // Field net/minecraft/class_368$class_369.field_2210:Lnet/minecraft/class_368$class_369;
+      40: putfield      #85                 // Field visibility:Lnet/minecraft/class_368$class_369;
+      43: aload_0
+      44: getfield      #189                // Field playedSound:Z
+      47: ifne          85
+      50: aload_0
+      51: getfield      #170                // Field sound:Lnet/minecraft/class_1113;
+      54: ifnull        85
+      57: getstatic     #107                // Field meteordevelopment/meteorclient/MeteorClient.mc:Lnet/minecraft/class_310;
+      60: invokevirtual #193                // Method net/minecraft/class_310.method_1483:()Lnet/minecraft/class_1144;
+      63: ifnull        85
+      66: getstatic     #107                // Field meteordevelopment/meteorclient/MeteorClient.mc:Lnet/minecraft/class_310;
+      69: invokevirtual #193                // Method net/minecraft/class_310.method_1483:()Lnet/minecraft/class_1144;
+      72: aload_0
+      73: getfield      #170                // Field sound:Lnet/minecraft/class_1113;
+      76: invokevirtual #199                // Method net/minecraft/class_1144.method_4873:(Lnet/minecraft/class_1113;)Lnet/minecraft/class_1140$class_11518;
+      79: pop
+      80: aload_0
+      81: iconst_1
+      82: putfield      #189                // Field playedSound:Z
+      85: return
+    LineNumberTable:
+      line 72: 0
+      line 73: 11
+      line 76: 16
+      line 77: 43
+      line 78: 66
+      line 79: 80
+      line 81: 85
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+          0      86     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+          0      86     1 manager   Lnet/minecraft/class_374;
+          0      86     2  time   J
+
+  public void method_1986(net.minecraft.class_332, net.minecraft.class_327, long);
+    descriptor: (Lnet/minecraft/class_332;Lnet/minecraft/class_327;J)V
+    Code:
+       0: aload_0
+       1: getfield      #80                 // Field start:J
+       4: lconst_0
+       5: lcmp
+       6: iflt          211
+       9: lload_3
+      10: aload_0
+      11: getfield      #80                 // Field start:J
+      14: lsub
+      15: lstore        5
+      17: fconst_1
+      18: lload         5
+      20: l2f
+      21: aload_0
+      22: getfield      #95                 // Field duration:J
+      25: l2f
+      26: fdiv
+      27: fconst_0
+      28: fconst_1
+      29: invokestatic  #210                // Method net/minecraft/class_3532.method_15363:(FFF)F
+      32: fsub
+      33: fstore        7
+      35: aload_1
+      36: getstatic     #216                // Field net/minecraft/class_10799.field_56883:Lcom/mojang/blaze3d/pipeline/RenderPipeline;
+      39: getstatic     #218                // Field TEXTURE:Lnet/minecraft/class_2960;
+      42: iconst_0
+      43: iconst_0
+      44: sipush        160
+      47: bipush        32
+      49: invokevirtual #224                // Method net/minecraft/class_332.method_52706:(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/class_2960;IIII)V
+      52: aload_1
+      53: iconst_0
+      54: iconst_0
+      55: sipush        160
+      58: bipush        32
+      60: ldc           #45                 // int -535423466
+      62: invokevirtual #228                // Method net/minecraft/class_332.method_25294:(IIIII)V
+      65: aload_1
+      66: iconst_0
+      67: iconst_0
+      68: iconst_2
+      69: bipush        32
+      71: aload_0
+      72: getfield      #101                // Field accentColor:I
+      75: invokevirtual #228                // Method net/minecraft/class_332.method_25294:(IIIII)V
+      78: aload_1
+      79: getstatic     #230                // Field ICON:Lnet/minecraft/class_1799;
+      82: iconst_5
+      83: bipush        8
+      85: invokevirtual #234                // Method net/minecraft/class_332.method_51445:(Lnet/minecraft/class_1799;II)V
+      88: bipush        127
+      90: istore        8
+      92: aload_2
+      93: aload_0
+      94: getfield      #97                 // Field mobType:Ljava/lang/String;
+      97: invokedynamic #237,  0            // InvokeDynamic #2:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     102: iload         8
+     104: invokevirtual #243                // Method net/minecraft/class_327.method_27523:(Ljava/lang/String;I)Ljava/lang/String;
+     107: astore        9
+     109: aload_0
+     110: aload_2
+     111: iload         8
+     113: invokevirtual #247                // Method buildSubtitle:(Lnet/minecraft/class_327;I)Ljava/lang/String;
+     116: astore        10
+     118: aload_1
+     119: aload_2
+     120: aload         9
+     122: bipush        30
+     124: bipush        7
+     126: iconst_m1
+     127: iconst_1
+     128: invokevirtual #251                // Method net/minecraft/class_332.method_51433:(Lnet/minecraft/class_327;Ljava/lang/String;IIIZ)V
+     131: aload_1
+     132: aload_2
+     133: aload         10
+     135: bipush        30
+     137: bipush        18
+     139: ldc           #49                 // int -4675352
+     141: iconst_0
+     142: invokevirtual #251                // Method net/minecraft/class_332.method_51433:(Lnet/minecraft/class_327;Ljava/lang/String;IIIZ)V
+     145: iconst_5
+     146: istore        11
+     148: sipush        157
+     151: istore        12
+     153: iload         12
+     155: iload         11
+     157: isub
+     158: istore        13
+     160: iconst_0
+     161: iload         13
+     163: i2f
+     164: fload         7
+     166: fmul
+     167: f2i
+     168: invokestatic  #254                // Method java/lang/Math.max:(II)I
+     171: istore        14
+     173: aload_1
+     174: iload         11
+     176: bipush        30
+     178: iload         12
+     180: bipush        31
+     182: ldc           #51                 // int -14540254
+     184: invokevirtual #228                // Method net/minecraft/class_332.method_25294:(IIIII)V
+     187: iload         14
+     189: ifle          211
+     192: aload_1
+     193: iload         11
+     195: bipush        30
+     197: iload         11
+     199: iload         14
+     201: iadd
+     202: bipush        31
+     204: aload_0
+     205: getfield      #101                // Field accentColor:I
+     208: invokevirtual #228                // Method net/minecraft/class_332.method_25294:(IIIII)V
+     211: return
+    LineNumberTable:
+      line 84: 0
+      line 85: 9
+      line 86: 17
+      line 87: 35
+      line 88: 52
+      line 89: 65
+      line 90: 78
+      line 91: 88
+      line 92: 92
+      line 93: 109
+      line 94: 118
+      line 95: 131
+      line 96: 145
+      line 97: 148
+      line 98: 153
+      line 99: 160
+      line 100: 173
+      line 101: 187
+      line 102: 192
+      line 105: 211
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+         17     194     5 elapsed   J
+         35     176     7  left   F
+         92     119     8 textMax   I
+        109     102     9 title   Ljava/lang/String;
+        118      93    10   sub   Ljava/lang/String;
+        148      63    11 barLeft   I
+        153      58    12 barRight   I
+        160      51    13 barWidth   I
+        173      38    14  fill   I
+          0     212     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+          0     212     1 context   Lnet/minecraft/class_332;
+          0     212     2 textRenderer   Lnet/minecraft/class_327;
+          0     212     3  time   J
+
+  private java.lang.String buildSubtitle(net.minecraft.class_327, int);
+    descriptor: (Lnet/minecraft/class_327;I)Ljava/lang/String;
+    Code:
+       0: aload_1
+       1: aload_0
+       2: getfield      #141                // Field subtitle:Ljava/lang/String;
+       5: invokedynamic #270,  0            // InvokeDynamic #3:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+      10: invokevirtual #274                // Method net/minecraft/class_327.method_1727:(Ljava/lang/String;)I
+      13: istore_3
+      14: iload_3
+      15: iload_2
+      16: if_icmplt     24
+      19: aload_0
+      20: getfield      #141                // Field subtitle:Ljava/lang/String;
+      23: areturn
+      24: iload_2
+      25: iload_3
+      26: isub
+      27: istore        4
+      29: iload         4
+      31: bipush        8
+      33: if_icmpgt     43
+      36: aload_0
+      37: getfield      #141                // Field subtitle:Ljava/lang/String;
+      40: goto          62
+      43: aload_0
+      44: getfield      #141                // Field subtitle:Ljava/lang/String;
+      47: aload_1
+      48: aload_0
+      49: getfield      #148                // Field coords:Ljava/lang/String;
+      52: iload         4
+      54: invokevirtual #243                // Method net/minecraft/class_327.method_27523:(Ljava/lang/String;I)Ljava/lang/String;
+      57: invokedynamic #279,  0            // InvokeDynamic #4:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      62: areturn
+    LineNumberTable:
+      line 108: 0
+      line 109: 14
+      line 110: 19
+      line 112: 24
+      line 113: 29
+      line 114: 36
+      line 115: 43
+      line 113: 62
+    LocalVariableTable:
+      Start  Length  Slot  Name   Signature
+         29      34     4 coordsWidth   I
+          0      63     0  this   Ldev/notdutt/spawnernoti/ui/SpawnerNotifierToast;
+          0      63     1 textRenderer   Lnet/minecraft/class_327;
+          0      63     2 maxWidth   I
+         14      49     3 prefixWidth   I
+
+  static {};
+    descriptor: ()V
+    Code:
+       0: ldc_w         #284                // String toast/advancement
+       3: invokestatic  #290                // Method net/minecraft/class_2960.method_60654:(Ljava/lang/String;)Lnet/minecraft/class_2960;
+       6: putstatic     #218                // Field TEXTURE:Lnet/minecraft/class_2960;
+       9: getstatic     #296                // Field net/minecraft/class_1802.field_8849:Lnet/minecraft/class_1792;
+      12: invokevirtual #302                // Method net/minecraft/class_1792.method_7854:()Lnet/minecraft/class_1799;
+      15: putstatic     #230                // Field ICON:Lnet/minecraft/class_1799;
+      18: return
+    LineNumberTable:
+      line 20: 0
+      line 21: 9
+}

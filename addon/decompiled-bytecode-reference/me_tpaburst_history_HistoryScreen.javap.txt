@@ -1,0 +1,330 @@
+Compiled from "HistoryScreen.java"
+public final class me.tpaburst.history.HistoryScreen extends net.minecraft.class_437 {
+  private final boolean killsMode;
+    descriptor: Z
+
+  private double scroll;
+    descriptor: D
+
+  public me.tpaburst.history.HistoryScreen(boolean);
+    descriptor: (Z)V
+    Code:
+       0: aload_0
+       1: iload_1
+       2: ifeq          10
+       5: ldc           #1                  // String Kill History
+       7: goto          12
+      10: ldc           #3                  // String Loot History
+      12: invokestatic  #5                  // InterfaceMethod net/minecraft/class_2561.method_43470:(Ljava/lang/String;)Lnet/minecraft/class_5250;
+      15: invokespecial #11                 // Method net/minecraft/class_437."<init>":(Lnet/minecraft/class_2561;)V
+      18: aload_0
+      19: iload_1
+      20: putfield      #17                 // Field killsMode:Z
+      23: return
+    LineNumberTable:
+      line 5: 0
+
+  private java.util.List<java.lang.String> lines();
+    descriptor: ()Ljava/util/List;
+    Code:
+       0: aload_0
+       1: getfield      #17                 // Field killsMode:Z
+       4: ifeq          13
+       7: invokestatic  #23                 // Method me/tpaburst/history/HistoryStore.kills:()Ljava/util/List;
+      10: goto          16
+      13: invokestatic  #29                 // Method me/tpaburst/history/HistoryStore.loot:()Ljava/util/List;
+      16: areturn
+    LineNumberTable:
+      line 6: 0
+
+  public void method_25394(net.minecraft.class_332, int, int, float);
+    descriptor: (Lnet/minecraft/class_332;IIF)V
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: iload_3
+       4: fload         4
+       6: invokespecial #32                 // Method net/minecraft/class_437.method_25394:(Lnet/minecraft/class_332;IIF)V
+       9: aload_0
+      10: getfield      #36                 // Field field_22789:I
+      13: istore        5
+      15: aload_0
+      16: getfield      #40                 // Field field_22790:I
+      19: istore        6
+      21: iload         5
+      23: iconst_2
+      24: idiv
+      25: sipush        190
+      28: isub
+      29: istore        7
+      31: bipush        45
+      33: istore        8
+      35: sipush        380
+      38: istore        9
+      40: iload         6
+      42: bipush        90
+      44: isub
+      45: istore        10
+      47: aload_1
+      48: iload         7
+      50: iload         8
+      52: iload         7
+      54: iload         9
+      56: iadd
+      57: iload         8
+      59: iload         10
+      61: iadd
+      62: ldc           #43                 // int -653258736
+      64: invokevirtual #44                 // Method net/minecraft/class_332.method_25294:(IIIII)V
+      67: aload_1
+      68: iload         7
+      70: iload         8
+      72: iload         7
+      74: iload         9
+      76: iadd
+      77: iload         8
+      79: bipush        24
+      81: iadd
+      82: ldc           #50                 // int -299884512
+      84: invokevirtual #44                 // Method net/minecraft/class_332.method_25294:(IIIII)V
+      87: aload_1
+      88: aload_0
+      89: getfield      #51                 // Field field_22793:Lnet/minecraft/class_327;
+      92: aload_0
+      93: getfield      #17                 // Field killsMode:Z
+      96: ifeq          104
+      99: ldc           #55                 // String Kill History (session)
+     101: goto          106
+     104: ldc           #57                 // String Loot History (session)
+     106: iload         7
+     108: bipush        10
+     110: iadd
+     111: iload         8
+     113: bipush        8
+     115: iadd
+     116: iconst_m1
+     117: invokevirtual #59                 // Method net/minecraft/class_332.method_25303:(Lnet/minecraft/class_327;Ljava/lang/String;III)V
+     120: aload_1
+     121: iload         7
+     123: iload         9
+     125: iadd
+     126: bipush        64
+     128: isub
+     129: iload         8
+     131: iconst_4
+     132: iadd
+     133: iload         7
+     135: iload         9
+     137: iadd
+     138: bipush        8
+     140: isub
+     141: iload         8
+     143: bipush        20
+     145: iadd
+     146: ldc           #63                 // int -13619152
+     148: invokevirtual #44                 // Method net/minecraft/class_332.method_25294:(IIIII)V
+     151: aload_1
+     152: aload_0
+     153: getfield      #51                 // Field field_22793:Lnet/minecraft/class_327;
+     156: ldc           #64                 // String Clear
+     158: iload         7
+     160: iload         9
+     162: iadd
+     163: bipush        52
+     165: isub
+     166: iload         8
+     168: bipush        8
+     170: iadd
+     171: iconst_m1
+     172: invokevirtual #59                 // Method net/minecraft/class_332.method_25303:(Lnet/minecraft/class_327;Ljava/lang/String;III)V
+     175: aload_0
+     176: invokevirtual #66                 // Method lines:()Ljava/util/List;
+     179: astore        11
+     181: iconst_0
+     182: aload_0
+     183: getfield      #69                 // Field scroll:D
+     186: d2i
+     187: invokestatic  #73                 // Method java/lang/Math.max:(II)I
+     190: istore        12
+     192: iload         8
+     194: bipush        34
+     196: iadd
+     197: istore        13
+     199: iload         10
+     201: bipush        42
+     203: isub
+     204: bipush        12
+     206: idiv
+     207: istore        14
+     209: aload         11
+     211: invokeinterface #79,  1           // InterfaceMethod java/util/List.isEmpty:()Z
+     216: ifeq          238
+     219: aload_1
+     220: aload_0
+     221: getfield      #51                 // Field field_22793:Lnet/minecraft/class_327;
+     224: ldc           #85                 // String No entries yet.
+     226: iload         7
+     228: bipush        12
+     230: iadd
+     231: iload         13
+     233: ldc           #87                 // int -5592406
+     235: invokevirtual #59                 // Method net/minecraft/class_332.method_25303:(Lnet/minecraft/class_327;Ljava/lang/String;III)V
+     238: iload         12
+     240: istore        15
+     242: iload         15
+     244: aload         11
+     246: invokeinterface #88,  1           // InterfaceMethod java/util/List.size:()I
+     251: if_icmpge     302
+     254: iload         15
+     256: iload         12
+     258: iload         14
+     260: iadd
+     261: if_icmpge     302
+     264: aload_1
+     265: aload_0
+     266: getfield      #51                 // Field field_22793:Lnet/minecraft/class_327;
+     269: aload         11
+     271: iload         15
+     273: invokeinterface #92,  2           // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     278: checkcast     #96                 // class java/lang/String
+     281: iload         7
+     283: bipush        12
+     285: iadd
+     286: iload         13
+     288: ldc           #98                 // int -2039584
+     290: invokevirtual #59                 // Method net/minecraft/class_332.method_25303:(Lnet/minecraft/class_327;Ljava/lang/String;III)V
+     293: iinc          15, 1
+     296: iinc          13, 12
+     299: goto          242
+     302: aload_1
+     303: aload_0
+     304: getfield      #51                 // Field field_22793:Lnet/minecraft/class_327;
+     307: ldc           #99                 // String Mouse wheel to scroll
+     309: iload         7
+     311: bipush        10
+     313: iadd
+     314: iload         8
+     316: iload         10
+     318: iadd
+     319: bipush        14
+     321: isub
+     322: ldc           #101                // int -7829368
+     324: invokevirtual #59                 // Method net/minecraft/class_332.method_25303:(Lnet/minecraft/class_327;Ljava/lang/String;III)V
+     327: return
+    LineNumberTable:
+      line 8: 0
+      line 9: 47
+      line 10: 87
+      line 11: 120
+      line 12: 175
+      line 13: 209
+      line 14: 238
+      line 15: 302
+      line 16: 327
+
+  public boolean method_25402(net.minecraft.class_11909, boolean);
+    descriptor: (Lnet/minecraft/class_11909;Z)Z
+    Code:
+       0: aload_1
+       1: invokevirtual #102                // Method net/minecraft/class_11909.comp_4798:()D
+       4: dstore_3
+       5: aload_1
+       6: invokevirtual #108                // Method net/minecraft/class_11909.comp_4799:()D
+       9: dstore        5
+      11: aload_0
+      12: getfield      #36                 // Field field_22789:I
+      15: iconst_2
+      16: idiv
+      17: sipush        190
+      20: isub
+      21: istore        7
+      23: bipush        45
+      25: istore        8
+      27: sipush        380
+      30: istore        9
+      32: aload_1
+      33: invokevirtual #111                // Method net/minecraft/class_11909.method_74245:()I
+      36: ifne          113
+      39: dload_3
+      40: iload         7
+      42: iload         9
+      44: iadd
+      45: bipush        64
+      47: isub
+      48: i2d
+      49: dcmpl
+      50: iflt          113
+      53: dload_3
+      54: iload         7
+      56: iload         9
+      58: iadd
+      59: bipush        8
+      61: isub
+      62: i2d
+      63: dcmpg
+      64: ifgt          113
+      67: dload         5
+      69: iload         8
+      71: iconst_4
+      72: iadd
+      73: i2d
+      74: dcmpl
+      75: iflt          113
+      78: dload         5
+      80: iload         8
+      82: bipush        20
+      84: iadd
+      85: i2d
+      86: dcmpg
+      87: ifgt          113
+      90: aload_0
+      91: getfield      #17                 // Field killsMode:Z
+      94: ifeq          103
+      97: invokestatic  #114                // Method me/tpaburst/history/HistoryStore.clearKills:()V
+     100: goto          106
+     103: invokestatic  #118                // Method me/tpaburst/history/HistoryStore.clearLoot:()V
+     106: aload_0
+     107: dconst_0
+     108: putfield      #69                 // Field scroll:D
+     111: iconst_1
+     112: ireturn
+     113: aload_0
+     114: aload_1
+     115: iload_2
+     116: invokespecial #121                // Method net/minecraft/class_437.method_25402:(Lnet/minecraft/class_11909;Z)Z
+     119: ireturn
+    LineNumberTable:
+      line 17: 0
+
+  public boolean method_25401(double, double, double, double);
+    descriptor: (DDDD)Z
+    Code:
+       0: aload_0
+       1: invokevirtual #66                 // Method lines:()Ljava/util/List;
+       4: astore        9
+       6: iconst_0
+       7: aload         9
+       9: invokeinterface #88,  1           // InterfaceMethod java/util/List.size:()I
+      14: bipush        10
+      16: isub
+      17: invokestatic  #73                 // Method java/lang/Math.max:(II)I
+      20: istore        10
+      22: aload_0
+      23: dconst_0
+      24: iload         10
+      26: i2d
+      27: aload_0
+      28: getfield      #69                 // Field scroll:D
+      31: dload         7
+      33: ldc2_w        #125                // double 3.0d
+      36: dmul
+      37: dsub
+      38: invokestatic  #127                // Method java/lang/Math.min:(DD)D
+      41: invokestatic  #131                // Method java/lang/Math.max:(DD)D
+      44: putfield      #69                 // Field scroll:D
+      47: iconst_1
+      48: ireturn
+    LineNumberTable:
+      line 18: 0
+}

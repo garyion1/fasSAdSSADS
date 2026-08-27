@@ -1,0 +1,227 @@
+Compiled from "HistoryStore.java"
+public final class me.tpaburst.history.HistoryStore {
+  private static final java.util.List<java.lang.String> KILLS;
+    descriptor: Ljava/util/List;
+
+  private static final java.util.List<java.lang.String> LOOT;
+    descriptor: Ljava/util/List;
+
+  private static final java.time.format.DateTimeFormatter TIME;
+    descriptor: Ljava/time/format/DateTimeFormatter;
+
+  private me.tpaburst.history.HistoryStore();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+    LineNumberTable:
+      line 9: 0
+
+  public static synchronized void addKill(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #7                  // Method java/lang/String.isBlank:()Z
+       8: ifeq          12
+      11: return
+      12: getstatic     #13                 // Field KILLS:Ljava/util/List;
+      15: invokestatic  #19                 // Method java/time/LocalTime.now:()Ljava/time/LocalTime;
+      18: getstatic     #25                 // Field TIME:Ljava/time/format/DateTimeFormatter;
+      21: invokevirtual #29                 // Method java/time/LocalTime.format:(Ljava/time/format/DateTimeFormatter;)Ljava/lang/String;
+      24: aload_0
+      25: invokevirtual #33                 // Method java/lang/String.trim:()Ljava/lang/String;
+      28: invokedynamic #37,  0             // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      33: invokeinterface #41,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      38: pop
+      39: getstatic     #13                 // Field KILLS:Ljava/util/List;
+      42: invokeinterface #47,  1           // InterfaceMethod java/util/List.size:()I
+      47: sipush        500
+      50: if_icmple     63
+      53: getstatic     #13                 // Field KILLS:Ljava/util/List;
+      56: iconst_0
+      57: invokeinterface #51,  2           // InterfaceMethod java/util/List.remove:(I)Ljava/lang/Object;
+      62: pop
+      63: return
+    LineNumberTable:
+      line 10: 0
+
+  public static synchronized void addLoot(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+       0: aload_0
+       1: ifnull        11
+       4: aload_0
+       5: invokevirtual #7                  // Method java/lang/String.isBlank:()Z
+       8: ifeq          12
+      11: return
+      12: getstatic     #55                 // Field LOOT:Ljava/util/List;
+      15: invokestatic  #19                 // Method java/time/LocalTime.now:()Ljava/time/LocalTime;
+      18: getstatic     #25                 // Field TIME:Ljava/time/format/DateTimeFormatter;
+      21: invokevirtual #29                 // Method java/time/LocalTime.format:(Ljava/time/format/DateTimeFormatter;)Ljava/lang/String;
+      24: aload_0
+      25: invokevirtual #33                 // Method java/lang/String.trim:()Ljava/lang/String;
+      28: invokedynamic #37,  0             // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+      33: invokeinterface #41,  2           // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+      38: pop
+      39: getstatic     #55                 // Field LOOT:Ljava/util/List;
+      42: invokeinterface #47,  1           // InterfaceMethod java/util/List.size:()I
+      47: sipush        1000
+      50: if_icmple     63
+      53: getstatic     #55                 // Field LOOT:Ljava/util/List;
+      56: iconst_0
+      57: invokeinterface #51,  2           // InterfaceMethod java/util/List.remove:(I)Ljava/lang/Object;
+      62: pop
+      63: return
+    LineNumberTable:
+      line 11: 0
+
+  public static synchronized java.util.List<java.lang.String> kills();
+    descriptor: ()Ljava/util/List;
+    Code:
+       0: new           #58                 // class java/util/ArrayList
+       3: dup
+       4: getstatic     #13                 // Field KILLS:Ljava/util/List;
+       7: invokespecial #60                 // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      10: areturn
+    LineNumberTable:
+      line 12: 0
+
+  public static synchronized java.util.List<java.lang.String> loot();
+    descriptor: ()Ljava/util/List;
+    Code:
+       0: new           #58                 // class java/util/ArrayList
+       3: dup
+       4: getstatic     #55                 // Field LOOT:Ljava/util/List;
+       7: invokespecial #60                 // Method java/util/ArrayList."<init>":(Ljava/util/Collection;)V
+      10: areturn
+    LineNumberTable:
+      line 13: 0
+
+  public static synchronized void clearKills();
+    descriptor: ()V
+    Code:
+       0: getstatic     #13                 // Field KILLS:Ljava/util/List;
+       3: invokeinterface #63,  1           // InterfaceMethod java/util/List.clear:()V
+       8: return
+    LineNumberTable:
+      line 14: 0
+
+  public static synchronized void clearLoot();
+    descriptor: ()V
+    Code:
+       0: getstatic     #55                 // Field LOOT:Ljava/util/List;
+       3: invokeinterface #63,  1           // InterfaceMethod java/util/List.clear:()V
+       8: return
+    LineNumberTable:
+      line 15: 0
+
+  public static void captureKillMessage(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    Code:
+       0: aload_0
+       1: ifnonnull     5
+       4: return
+       5: aload_0
+       6: invokevirtual #33                 // Method java/lang/String.trim:()Ljava/lang/String;
+       9: astore_1
+      10: aload_1
+      11: getstatic     #66                 // Field java/util/Locale.ROOT:Ljava/util/Locale;
+      14: invokevirtual #72                 // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+      17: astore_2
+      18: iconst_4
+      19: anewarray     #8                  // class java/lang/String
+      22: dup
+      23: iconst_0
+      24: ldc           #76                 // String you killed
+      26: aastore
+      27: dup
+      28: iconst_1
+      29: ldc           #78                 // String you have killed
+      31: aastore
+      32: dup
+      33: iconst_2
+      34: ldc           #80                 // String killed player
+      36: aastore
+      37: dup
+      38: iconst_3
+      39: ldc           #82                 // String you eliminated
+      41: aastore
+      42: astore_3
+      43: aload_3
+      44: astore        4
+      46: aload         4
+      48: arraylength
+      49: istore        5
+      51: iconst_0
+      52: istore        6
+      54: iload         6
+      56: iload         5
+      58: if_icmpge     145
+      61: aload         4
+      63: iload         6
+      65: aaload
+      66: astore        7
+      68: aload_2
+      69: aload         7
+      71: invokevirtual #84                 // Method java/lang/String.indexOf:(Ljava/lang/String;)I
+      74: istore        8
+      76: iload         8
+      78: iflt          139
+      81: aload_1
+      82: iload         8
+      84: aload         7
+      86: invokevirtual #88                 // Method java/lang/String.length:()I
+      89: iadd
+      90: invokevirtual #91                 // Method java/lang/String.substring:(I)Ljava/lang/String;
+      93: invokevirtual #33                 // Method java/lang/String.trim:()Ljava/lang/String;
+      96: astore        9
+      98: aload         9
+     100: bipush        32
+     102: invokevirtual #95                 // Method java/lang/String.indexOf:(I)I
+     105: istore        10
+     107: iload         10
+     109: ifle          122
+     112: aload         9
+     114: iconst_0
+     115: iload         10
+     117: invokevirtual #98                 // Method java/lang/String.substring:(II)Ljava/lang/String;
+     120: astore        9
+     122: aload         9
+     124: ldc           #101                // String [^A-Za-z0-9_]
+     126: ldc           #103                // String
+     128: invokevirtual #105                // Method java/lang/String.replaceAll:(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;
+     131: astore        9
+     133: aload         9
+     135: invokestatic  #108                // Method addKill:(Ljava/lang/String;)V
+     138: return
+     139: iinc          6, 1
+     142: goto          54
+     145: return
+    LineNumberTable:
+      line 17: 0
+      line 18: 43
+      line 19: 145
+
+  static {};
+    descriptor: ()V
+    Code:
+       0: new           #58                 // class java/util/ArrayList
+       3: dup
+       4: invokespecial #112                // Method java/util/ArrayList."<init>":()V
+       7: putstatic     #13                 // Field KILLS:Ljava/util/List;
+      10: new           #58                 // class java/util/ArrayList
+      13: dup
+      14: invokespecial #112                // Method java/util/ArrayList."<init>":()V
+      17: putstatic     #55                 // Field LOOT:Ljava/util/List;
+      20: ldc           #113                // String HH:mm:ss
+      22: invokestatic  #115                // Method java/time/format/DateTimeFormatter.ofPattern:(Ljava/lang/String;)Ljava/time/format/DateTimeFormatter;
+      25: putstatic     #25                 // Field TIME:Ljava/time/format/DateTimeFormatter;
+      28: return
+    LineNumberTable:
+      line 6: 0
+      line 7: 10
+      line 8: 20
+}

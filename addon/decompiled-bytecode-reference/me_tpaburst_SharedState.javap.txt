@@ -1,0 +1,23 @@
+Compiled from "SharedState.java"
+public final class me.tpaburst.SharedState {
+  public static volatile boolean pauseTPA;
+    descriptor: Z
+
+  private me.tpaburst.SharedState();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+       4: return
+    LineNumberTable:
+      line 1: 0
+
+  static {};
+    descriptor: ()V
+    Code:
+       0: iconst_0
+       1: putstatic     #7                  // Field pauseTPA:Z
+       4: return
+    LineNumberTable:
+      line 1: 0
+}

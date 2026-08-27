@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group = 'me.tpaburst'
+version = '1.6.1-source-recovery'
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// Meteor/Minecraft dependencies are intentionally not guessed here.
+// Add the same Fabric Loom + Meteor dependencies used by your 1.21.11 environment.

@@ -1,0 +1,107 @@
+Compiled from "AutoLootSell.java"
+final class me.tpaburst.modules.AutoLootSell$State extends java.lang.Enum<me.tpaburst.modules.AutoLootSell$State> {
+  public static final me.tpaburst.modules.AutoLootSell$State WAITING;
+    descriptor: Lme/tpaburst/modules/AutoLootSell$State;
+
+  public static final me.tpaburst.modules.AutoLootSell$State OPEN_SELL;
+    descriptor: Lme/tpaburst/modules/AutoLootSell$State;
+
+  public static final me.tpaburst.modules.AutoLootSell$State SELLING;
+    descriptor: Lme/tpaburst/modules/AutoLootSell$State;
+
+  public static final me.tpaburst.modules.AutoLootSell$State FINISH;
+    descriptor: Lme/tpaburst/modules/AutoLootSell$State;
+
+  private static final me.tpaburst.modules.AutoLootSell$State[] $VALUES;
+    descriptor: [Lme/tpaburst/modules/AutoLootSell$State;
+
+  public static me.tpaburst.modules.AutoLootSell$State[] values();
+    descriptor: ()[Lme/tpaburst/modules/AutoLootSell$State;
+    Code:
+       0: getstatic     #16                 // Field $VALUES:[Lme/tpaburst/modules/AutoLootSell$State;
+       3: invokevirtual #20                 // Method "[Lme/tpaburst/modules/AutoLootSell$State;".clone:()Ljava/lang/Object;
+       6: checkcast     #21                 // class "[Lme/tpaburst/modules/AutoLootSell$State;"
+       9: areturn
+    LineNumberTable:
+      line 11: 0
+
+  public static me.tpaburst.modules.AutoLootSell$State valueOf(java.lang.String);
+    descriptor: (Ljava/lang/String;)Lme/tpaburst/modules/AutoLootSell$State;
+    Code:
+       0: ldc           #1                  // class me/tpaburst/modules/AutoLootSell$State
+       2: aload_0
+       3: invokestatic  #25                 // Method java/lang/Enum.valueOf:(Ljava/lang/Class;Ljava/lang/String;)Ljava/lang/Enum;
+       6: checkcast     #1                  // class me/tpaburst/modules/AutoLootSell$State
+       9: areturn
+    LineNumberTable:
+      line 11: 0
+
+  private me.tpaburst.modules.AutoLootSell$State();
+    descriptor: (Ljava/lang/String;I)V
+    Code:
+       0: aload_0
+       1: aload_1
+       2: iload_2
+       3: invokespecial #31                 // Method java/lang/Enum."<init>":(Ljava/lang/String;I)V
+       6: return
+    LineNumberTable:
+      line 11: 0
+
+  private static me.tpaburst.modules.AutoLootSell$State[] $values();
+    descriptor: ()[Lme/tpaburst/modules/AutoLootSell$State;
+    Code:
+       0: iconst_4
+       1: anewarray     #1                  // class me/tpaburst/modules/AutoLootSell$State
+       4: dup
+       5: iconst_0
+       6: getstatic     #3                  // Field WAITING:Lme/tpaburst/modules/AutoLootSell$State;
+       9: aastore
+      10: dup
+      11: iconst_1
+      12: getstatic     #7                  // Field OPEN_SELL:Lme/tpaburst/modules/AutoLootSell$State;
+      15: aastore
+      16: dup
+      17: iconst_2
+      18: getstatic     #10                 // Field SELLING:Lme/tpaburst/modules/AutoLootSell$State;
+      21: aastore
+      22: dup
+      23: iconst_3
+      24: getstatic     #13                 // Field FINISH:Lme/tpaburst/modules/AutoLootSell$State;
+      27: aastore
+      28: areturn
+    LineNumberTable:
+      line 11: 0
+
+  static {};
+    descriptor: ()V
+    Code:
+       0: new           #1                  // class me/tpaburst/modules/AutoLootSell$State
+       3: dup
+       4: ldc           #35                 // String WAITING
+       6: iconst_0
+       7: invokespecial #36                 // Method "<init>":(Ljava/lang/String;I)V
+      10: putstatic     #3                  // Field WAITING:Lme/tpaburst/modules/AutoLootSell$State;
+      13: new           #1                  // class me/tpaburst/modules/AutoLootSell$State
+      16: dup
+      17: ldc           #37                 // String OPEN_SELL
+      19: iconst_1
+      20: invokespecial #36                 // Method "<init>":(Ljava/lang/String;I)V
+      23: putstatic     #7                  // Field OPEN_SELL:Lme/tpaburst/modules/AutoLootSell$State;
+      26: new           #1                  // class me/tpaburst/modules/AutoLootSell$State
+      29: dup
+      30: ldc           #38                 // String SELLING
+      32: iconst_2
+      33: invokespecial #36                 // Method "<init>":(Ljava/lang/String;I)V
+      36: putstatic     #10                 // Field SELLING:Lme/tpaburst/modules/AutoLootSell$State;
+      39: new           #1                  // class me/tpaburst/modules/AutoLootSell$State
+      42: dup
+      43: ldc           #39                 // String FINISH
+      45: iconst_3
+      46: invokespecial #36                 // Method "<init>":(Ljava/lang/String;I)V
+      49: putstatic     #13                 // Field FINISH:Lme/tpaburst/modules/AutoLootSell$State;
+      52: invokestatic  #40                 // Method $values:()[Lme/tpaburst/modules/AutoLootSell$State;
+      55: putstatic     #16                 // Field $VALUES:[Lme/tpaburst/modules/AutoLootSell$State;
+      58: return
+    LineNumberTable:
+      line 11: 0
+}

@@ -1,0 +1,743 @@
+Compiled from "TPABurst.java"
+public class me.tpaburst.modules.TPABurst extends meteordevelopment.meteorclient.systems.modules.Module {
+  private final meteordevelopment.meteorclient.settings.SettingGroup sgGeneral;
+    descriptor: Lmeteordevelopment/meteorclient/settings/SettingGroup;
+
+  private final meteordevelopment.meteorclient.settings.Setting<java.lang.Integer> requestDelay;
+    descriptor: Lmeteordevelopment/meteorclient/settings/Setting;
+
+  private final meteordevelopment.meteorclient.settings.Setting<java.lang.Integer> batchSize;
+    descriptor: Lmeteordevelopment/meteorclient/settings/Setting;
+
+  private final java.util.List<java.lang.String> targets;
+    descriptor: Ljava/util/List;
+
+  private final java.util.Set<java.lang.String> used;
+    descriptor: Ljava/util/Set;
+
+  private int index;
+    descriptor: I
+
+  private int delayTicks;
+    descriptor: I
+
+  private int retryTicks;
+    descriptor: I
+
+  private int completionId;
+    descriptor: I
+
+  private boolean refreshing;
+    descriptor: Z
+
+  public me.tpaburst.modules.TPABurst();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: getstatic     #52                 // Field me/tpaburst/TPABurstAddon.CATEGORY:Lmeteordevelopment/meteorclient/systems/modules/Category;
+       4: ldc           #54                 // String tpa-burst
+       6: ldc           #56                 // String Continuously sends /tpahere to random non-bot players until disabled.
+       8: invokespecial #59                 // Method meteordevelopment/meteorclient/systems/modules/Module."<init>":(Lmeteordevelopment/meteorclient/systems/modules/Category;Ljava/lang/String;Ljava/lang/String;)V
+      11: aload_0
+      12: aload_0
+      13: getfield      #63                 // Field settings:Lmeteordevelopment/meteorclient/settings/Settings;
+      16: invokevirtual #69                 // Method meteordevelopment/meteorclient/settings/Settings.getDefaultGroup:()Lmeteordevelopment/meteorclient/settings/SettingGroup;
+      19: putfield      #71                 // Field sgGeneral:Lmeteordevelopment/meteorclient/settings/SettingGroup;
+      22: aload_0
+      23: new           #73                 // class java/util/ArrayList
+      26: dup
+      27: invokespecial #75                 // Method java/util/ArrayList."<init>":()V
+      30: putfield      #77                 // Field targets:Ljava/util/List;
+      33: aload_0
+      34: new           #79                 // class java/util/HashSet
+      37: dup
+      38: invokespecial #80                 // Method java/util/HashSet."<init>":()V
+      41: putfield      #82                 // Field used:Ljava/util/Set;
+      44: aload_0
+      45: ldc           #83                 // int 730000
+      47: putfield      #85                 // Field completionId:I
+      50: new           #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+      53: dup
+      54: invokespecial #86                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder."<init>":()V
+      57: ldc           #88                 // String request-delay
+      59: invokevirtual #92                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.name:(Ljava/lang/String;)Ljava/lang/Object;
+      62: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+      65: astore_1
+      66: aload_1
+      67: ldc           #94                 // String Delay between /tpahere requests in ticks. 20 ticks = 1 second.
+      69: invokevirtual #97                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.description:(Ljava/lang/String;)Ljava/lang/Object;
+      72: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+      75: astore_1
+      76: aload_1
+      77: bipush        7
+      79: invokestatic  #103                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+      82: invokevirtual #107                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.defaultValue:(Ljava/lang/Object;)Ljava/lang/Object;
+      85: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+      88: astore_1
+      89: aload_1
+      90: iconst_1
+      91: invokevirtual #111                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.min:(I)Lmeteordevelopment/meteorclient/settings/IntSetting$Builder;
+      94: iconst_1
+      95: bipush        100
+      97: invokevirtual #115                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.sliderRange:(II)Lmeteordevelopment/meteorclient/settings/IntSetting$Builder;
+     100: astore_1
+     101: aload_0
+     102: aload_0
+     103: getfield      #71                 // Field sgGeneral:Lmeteordevelopment/meteorclient/settings/SettingGroup;
+     106: aload_1
+     107: invokevirtual #119                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.build:()Lmeteordevelopment/meteorclient/settings/IntSetting;
+     110: invokevirtual #125                // Method meteordevelopment/meteorclient/settings/SettingGroup.add:(Lmeteordevelopment/meteorclient/settings/Setting;)Lmeteordevelopment/meteorclient/settings/Setting;
+     113: putfield      #127                // Field requestDelay:Lmeteordevelopment/meteorclient/settings/Setting;
+     116: new           #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+     119: dup
+     120: invokespecial #86                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder."<init>":()V
+     123: ldc           #129                // String batch-size
+     125: invokevirtual #92                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.name:(Ljava/lang/String;)Ljava/lang/Object;
+     128: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+     131: astore_2
+     132: aload_2
+     133: ldc           #131                // String How many random players to queue per server suggestion response.
+     135: invokevirtual #97                 // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.description:(Ljava/lang/String;)Ljava/lang/Object;
+     138: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+     141: astore_2
+     142: aload_2
+     143: bipush        10
+     145: invokestatic  #103                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+     148: invokevirtual #107                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.defaultValue:(Ljava/lang/Object;)Ljava/lang/Object;
+     151: checkcast     #7                  // class meteordevelopment/meteorclient/settings/IntSetting$Builder
+     154: astore_2
+     155: aload_2
+     156: iconst_1
+     157: invokevirtual #111                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.min:(I)Lmeteordevelopment/meteorclient/settings/IntSetting$Builder;
+     160: iconst_1
+     161: bipush        30
+     163: invokevirtual #115                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.sliderRange:(II)Lmeteordevelopment/meteorclient/settings/IntSetting$Builder;
+     166: astore_2
+     167: aload_0
+     168: aload_0
+     169: getfield      #71                 // Field sgGeneral:Lmeteordevelopment/meteorclient/settings/SettingGroup;
+     172: aload_2
+     173: invokevirtual #119                // Method meteordevelopment/meteorclient/settings/IntSetting$Builder.build:()Lmeteordevelopment/meteorclient/settings/IntSetting;
+     176: invokevirtual #125                // Method meteordevelopment/meteorclient/settings/SettingGroup.add:(Lmeteordevelopment/meteorclient/settings/Setting;)Lmeteordevelopment/meteorclient/settings/Setting;
+     179: putfield      #133                // Field batchSize:Lmeteordevelopment/meteorclient/settings/Setting;
+     182: return
+    LineNumberTable:
+      line 26: 0
+      line 17: 11
+      line 20: 22
+      line 21: 33
+      line 22: 44
+      line 27: 50
+      line 28: 66
+      line 29: 76
+      line 30: 101
+      line 31: 116
+      line 32: 132
+      line 33: 142
+      line 34: 167
+      line 35: 182
+
+  public void onActivate();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: getfield      #77                 // Field targets:Ljava/util/List;
+       4: dup
+       5: astore_1
+       6: monitorenter
+       7: aload_0
+       8: getfield      #77                 // Field targets:Ljava/util/List;
+      11: invokeinterface #139,  1          // InterfaceMethod java/util/List.clear:()V
+      16: aload_0
+      17: iconst_0
+      18: putfield      #141                // Field index:I
+      21: aload_1
+      22: monitorexit
+      23: goto          31
+      26: astore_2
+      27: aload_1
+      28: monitorexit
+      29: aload_2
+      30: athrow
+      31: aload_0
+      32: getfield      #82                 // Field used:Ljava/util/Set;
+      35: invokeinterface #144,  1          // InterfaceMethod java/util/Set.clear:()V
+      40: aload_0
+      41: iconst_0
+      42: putfield      #146                // Field delayTicks:I
+      45: aload_0
+      46: iconst_0
+      47: putfield      #148                // Field retryTicks:I
+      50: aload_0
+      51: iconst_0
+      52: putfield      #150                // Field refreshing:Z
+      55: aload_0
+      56: invokevirtual #153                // Method requestTargets:()V
+      59: return
+    Exception table:
+       from    to  target type
+           7    23    26   any
+          26    29    26   any
+    LineNumberTable:
+      line 37: 0
+
+  public void onDeactivate();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: iconst_0
+       2: putfield      #150                // Field refreshing:Z
+       5: aload_0
+       6: getfield      #77                 // Field targets:Ljava/util/List;
+       9: dup
+      10: astore_1
+      11: monitorenter
+      12: aload_0
+      13: getfield      #77                 // Field targets:Ljava/util/List;
+      16: invokeinterface #139,  1          // InterfaceMethod java/util/List.clear:()V
+      21: aload_0
+      22: iconst_0
+      23: putfield      #141                // Field index:I
+      26: aload_1
+      27: monitorexit
+      28: goto          36
+      31: astore_2
+      32: aload_1
+      33: monitorexit
+      34: aload_2
+      35: athrow
+      36: aload_0
+      37: getfield      #82                 // Field used:Ljava/util/Set;
+      40: invokeinterface #144,  1          // InterfaceMethod java/util/Set.clear:()V
+      45: return
+    Exception table:
+       from    to  target type
+          12    28    31   any
+          31    34    31   any
+    LineNumberTable:
+      line 38: 0
+
+  private java.util.Set<java.lang.String> visibleTabNames();
+    descriptor: ()Ljava/util/Set;
+    Code:
+       0: new           #79                 // class java/util/HashSet
+       3: dup
+       4: invokespecial #80                 // Method java/util/HashSet."<init>":()V
+       7: astore_1
+       8: aload_0
+       9: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      12: ifnull        25
+      15: aload_0
+      16: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      19: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+      22: ifnonnull     27
+      25: aload_1
+      26: areturn
+      27: aload_0
+      28: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      31: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+      34: invokevirtual #175                // Method net/minecraft/class_634.method_2880:()Ljava/util/Collection;
+      37: astore_2
+      38: aload_2
+      39: ifnonnull     44
+      42: aload_1
+      43: areturn
+      44: aload_2
+      45: invokeinterface #181,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+      50: astore_3
+      51: aload_3
+      52: invokeinterface #187,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      57: ifeq          120
+      60: aload_3
+      61: invokeinterface #191,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      66: checkcast     #193                // class net/minecraft/class_640
+      69: astore        4
+      71: aload         4
+      73: ifnonnull     79
+      76: goto          51
+      79: aload         4
+      81: invokevirtual #197                // Method net/minecraft/class_640.method_2966:()Lcom/mojang/authlib/GameProfile;
+      84: astore        5
+      86: aload         5
+      88: ifnull        117
+      91: aload         5
+      93: invokevirtual #202                // Method com/mojang/authlib/GameProfile.name:()Ljava/lang/String;
+      96: ifnull        117
+      99: aload_1
+     100: aload         5
+     102: invokevirtual #202                // Method com/mojang/authlib/GameProfile.name:()Ljava/lang/String;
+     105: getstatic     #208                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+     108: invokevirtual #214                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+     111: invokeinterface #217,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     116: pop
+     117: goto          51
+     120: aload_1
+     121: areturn
+    LineNumberTable:
+      line 41: 0
+      line 42: 27
+      line 43: 44
+      line 44: 120
+
+  private void requestTargets();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: getfield      #150                // Field refreshing:Z
+       4: ifne          34
+       7: aload_0
+       8: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      11: ifnull        34
+      14: aload_0
+      15: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      18: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+      21: ifnull        34
+      24: aload_0
+      25: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      28: getfield      #221                // Field net/minecraft/class_310.field_1724:Lnet/minecraft/class_746;
+      31: ifnonnull     35
+      34: return
+      35: aload_0
+      36: iconst_1
+      37: putfield      #150                // Field refreshing:Z
+      40: aload_0
+      41: bipush        40
+      43: putfield      #148                // Field retryTicks:I
+      46: bipush        97
+      48: invokestatic  #227                // Method java/util/concurrent/ThreadLocalRandom.current:()Ljava/util/concurrent/ThreadLocalRandom;
+      51: bipush        26
+      53: invokevirtual #231                // Method java/util/concurrent/ThreadLocalRandom.nextInt:(I)I
+      56: iadd
+      57: i2c
+      58: istore_1
+      59: iload_1
+      60: invokedynamic #243,  0            // InvokeDynamic #0:makeConcatWithConstants:(C)Ljava/lang/String;
+      65: astore_2
+      66: aload_0
+      67: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      70: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+      73: invokevirtual #247                // Method net/minecraft/class_634.method_48296:()Lnet/minecraft/class_2535;
+      76: astore_3
+      77: aload_3
+      78: ifnonnull     87
+      81: aload_0
+      82: iconst_0
+      83: putfield      #150                // Field refreshing:Z
+      86: return
+      87: aload_3
+      88: new           #249                // class net/minecraft/class_2805
+      91: dup
+      92: aload_0
+      93: dup
+      94: getfield      #85                 // Field completionId:I
+      97: dup_x1
+      98: iconst_1
+      99: iadd
+     100: putfield      #85                 // Field completionId:I
+     103: aload_2
+     104: invokespecial #252                // Method net/minecraft/class_2805."<init>":(ILjava/lang/String;)V
+     107: invokevirtual #258                // Method net/minecraft/class_2535.method_10743:(Lnet/minecraft/class_2596;)V
+     110: return
+    LineNumberTable:
+      line 48: 0
+      line 49: 35
+      line 50: 46
+      line 51: 59
+      line 52: 66
+      line 53: 77
+      line 54: 87
+      line 55: 110
+
+  private void readSuggestions(net.minecraft.class_2639);
+    descriptor: (Lnet/minecraft/class_2639;)V
+    Code:
+       0: aload_1
+       1: invokevirtual #266                // Method net/minecraft/class_2639.method_11397:()Lcom/mojang/brigadier/suggestion/Suggestions;
+       4: astore_2
+       5: aload_2
+       6: ifnonnull     10
+       9: return
+      10: aload_0
+      11: invokevirtual #268                // Method visibleTabNames:()Ljava/util/Set;
+      14: astore_3
+      15: new           #73                 // class java/util/ArrayList
+      18: dup
+      19: invokespecial #75                 // Method java/util/ArrayList."<init>":()V
+      22: astore        4
+      24: aload_2
+      25: invokevirtual #274                // Method com/mojang/brigadier/suggestion/Suggestions.getList:()Ljava/util/List;
+      28: invokeinterface #275,  1          // InterfaceMethod java/util/List.iterator:()Ljava/util/Iterator;
+      33: astore        5
+      35: aload         5
+      37: invokeinterface #187,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      42: ifeq          149
+      45: aload         5
+      47: invokeinterface #191,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+      52: checkcast     #277                // class com/mojang/brigadier/suggestion/Suggestion
+      55: astore        6
+      57: aload         6
+      59: ifnonnull     65
+      62: goto          35
+      65: aload         6
+      67: invokevirtual #280                // Method com/mojang/brigadier/suggestion/Suggestion.getText:()Ljava/lang/String;
+      70: astore        7
+      72: aload         7
+      74: ifnonnull     80
+      77: goto          35
+      80: aload         7
+      82: invokevirtual #283                // Method java/lang/String.trim:()Ljava/lang/String;
+      85: astore        7
+      87: aload         7
+      89: invokestatic  #287                // Method eligible:(Ljava/lang/String;)Z
+      92: ifne          98
+      95: goto          35
+      98: aload         7
+     100: getstatic     #208                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+     103: invokevirtual #214                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+     106: astore        8
+     108: aload_3
+     109: aload         8
+     111: invokeinterface #290,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+     116: ifne          35
+     119: aload_0
+     120: getfield      #82                 // Field used:Ljava/util/Set;
+     123: aload         8
+     125: invokeinterface #290,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+     130: ifeq          136
+     133: goto          35
+     136: aload         4
+     138: aload         7
+     140: invokeinterface #291,  2          // InterfaceMethod java/util/List.add:(Ljava/lang/Object;)Z
+     145: pop
+     146: goto          35
+     149: aload         4
+     151: invokestatic  #297                // Method java/util/Collections.shuffle:(Ljava/util/List;)V
+     154: aload_0
+     155: getfield      #133                // Field batchSize:Lmeteordevelopment/meteorclient/settings/Setting;
+     158: invokevirtual #302                // Method meteordevelopment/meteorclient/settings/Setting.get:()Ljava/lang/Object;
+     161: checkcast     #99                 // class java/lang/Integer
+     164: invokevirtual #306                // Method java/lang/Integer.intValue:()I
+     167: aload         4
+     169: invokeinterface #309,  1          // InterfaceMethod java/util/List.size:()I
+     174: invokestatic  #314                // Method java/lang/Math.min:(II)I
+     177: istore        5
+     179: aload_0
+     180: getfield      #77                 // Field targets:Ljava/util/List;
+     183: dup
+     184: astore        6
+     186: monitorenter
+     187: aload_0
+     188: getfield      #77                 // Field targets:Ljava/util/List;
+     191: invokeinterface #139,  1          // InterfaceMethod java/util/List.clear:()V
+     196: aload_0
+     197: getfield      #77                 // Field targets:Ljava/util/List;
+     200: aload         4
+     202: iconst_0
+     203: iload         5
+     205: invokeinterface #318,  3          // InterfaceMethod java/util/List.subList:(II)Ljava/util/List;
+     210: invokeinterface #322,  2          // InterfaceMethod java/util/List.addAll:(Ljava/util/Collection;)Z
+     215: pop
+     216: aload_0
+     217: iconst_0
+     218: putfield      #141                // Field index:I
+     221: aload         6
+     223: monitorexit
+     224: goto          235
+     227: astore        9
+     229: aload         6
+     231: monitorexit
+     232: aload         9
+     234: athrow
+     235: aload_0
+     236: iconst_0
+     237: putfield      #150                // Field refreshing:Z
+     240: aload_0
+     241: iconst_0
+     242: putfield      #148                // Field retryTicks:I
+     245: iload         5
+     247: ifne          255
+     250: aload_0
+     251: iconst_2
+     252: putfield      #148                // Field retryTicks:I
+     255: return
+    Exception table:
+       from    to  target type
+         187   224   227   any
+         227   232   227   any
+    LineNumberTable:
+      line 58: 0
+      line 59: 10
+      line 60: 24
+      line 61: 57
+      line 62: 87
+      line 63: 108
+      line 64: 136
+      line 65: 146
+      line 66: 149
+      line 67: 154
+      line 68: 179
+      line 69: 235
+      line 70: 245
+      line 71: 255
+
+  private static boolean eligible(java.lang.String);
+    descriptor: (Ljava/lang/String;)Z
+    Code:
+       0: aload_0
+       1: ifnull        21
+       4: aload_0
+       5: invokevirtual #325                // Method java/lang/String.length:()I
+       8: iconst_1
+       9: if_icmplt     21
+      12: aload_0
+      13: invokevirtual #325                // Method java/lang/String.length:()I
+      16: bipush        16
+      18: if_icmple     23
+      21: iconst_0
+      22: ireturn
+      23: aload_0
+      24: iconst_0
+      25: invokevirtual #329                // Method java/lang/String.charAt:(I)C
+      28: istore_1
+      29: iload_1
+      30: invokestatic  #333                // Method asciiLetter:(C)Z
+      33: ifne          38
+      36: iconst_0
+      37: ireturn
+      38: iconst_0
+      39: istore_2
+      40: iconst_0
+      41: istore_3
+      42: iload_3
+      43: aload_0
+      44: invokevirtual #325                // Method java/lang/String.length:()I
+      47: if_icmpge     100
+      50: aload_0
+      51: iload_3
+      52: invokevirtual #329                // Method java/lang/String.charAt:(I)C
+      55: istore        4
+      57: iload         4
+      59: invokestatic  #333                // Method asciiLetter:(C)Z
+      62: ifeq          71
+      65: iinc          2, 1
+      68: goto          94
+      71: iload         4
+      73: bipush        48
+      75: if_icmplt     85
+      78: iload         4
+      80: bipush        57
+      82: if_icmple     94
+      85: iload         4
+      87: bipush        95
+      89: if_icmpeq     94
+      92: iconst_0
+      93: ireturn
+      94: iinc          3, 1
+      97: goto          42
+     100: iload_2
+     101: bipush        100
+     103: imul
+     104: aload_0
+     105: invokevirtual #325                // Method java/lang/String.length:()I
+     108: bipush        60
+     110: imul
+     111: if_icmplt     118
+     114: iconst_1
+     115: goto          119
+     118: iconst_0
+     119: ireturn
+    LineNumberTable:
+      line 74: 0
+      line 75: 23
+      line 76: 38
+      line 77: 40
+      line 78: 100
+
+  private static boolean asciiLetter(char);
+    descriptor: (C)Z
+    Code:
+       0: iload_0
+       1: bipush        65
+       3: if_icmplt     12
+       6: iload_0
+       7: bipush        90
+       9: if_icmple     24
+      12: iload_0
+      13: bipush        97
+      15: if_icmplt     28
+      18: iload_0
+      19: bipush        122
+      21: if_icmpgt     28
+      24: iconst_1
+      25: goto          29
+      28: iconst_0
+      29: ireturn
+    LineNumberTable:
+      line 80: 0
+
+  private void onPacketReceive(meteordevelopment.meteorclient.events.packets.PacketEvent$Receive);
+    descriptor: (Lmeteordevelopment/meteorclient/events/packets/PacketEvent$Receive;)V
+    Code:
+       0: aload_0
+       1: getfield      #150                // Field refreshing:Z
+       4: ifeq          18
+       7: aload_1
+       8: ifnull        18
+      11: aload_1
+      12: getfield      #340                // Field meteordevelopment/meteorclient/events/packets/PacketEvent$Receive.packet:Lnet/minecraft/class_2596;
+      15: ifnonnull     19
+      18: return
+      19: aload_1
+      20: getfield      #340                // Field meteordevelopment/meteorclient/events/packets/PacketEvent$Receive.packet:Lnet/minecraft/class_2596;
+      23: instanceof    #262                // class net/minecraft/class_2639
+      26: ifeq          40
+      29: aload_0
+      30: aload_1
+      31: getfield      #340                // Field meteordevelopment/meteorclient/events/packets/PacketEvent$Receive.packet:Lnet/minecraft/class_2596;
+      34: checkcast     #262                // class net/minecraft/class_2639
+      37: invokevirtual #342                // Method readSuggestions:(Lnet/minecraft/class_2639;)V
+      40: return
+    LineNumberTable:
+      line 83: 0
+      line 84: 19
+      line 85: 40
+
+  private void onTick(meteordevelopment.meteorclient.events.world.TickEvent$Post);
+    descriptor: (Lmeteordevelopment/meteorclient/events/world/TickEvent$Post;)V
+    Code:
+       0: getstatic     #349                // Field me/tpaburst/SharedState.pauseTPA:Z
+       3: ifeq          7
+       6: return
+       7: aload_0
+       8: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      11: ifnull        34
+      14: aload_0
+      15: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      18: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+      21: ifnull        34
+      24: aload_0
+      25: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+      28: getfield      #221                // Field net/minecraft/class_310.field_1724:Lnet/minecraft/class_746;
+      31: ifnonnull     35
+      34: return
+      35: aload_0
+      36: getfield      #150                // Field refreshing:Z
+      39: ifeq          75
+      42: aload_0
+      43: getfield      #148                // Field retryTicks:I
+      46: ifle          75
+      49: aload_0
+      50: dup
+      51: getfield      #148                // Field retryTicks:I
+      54: iconst_1
+      55: isub
+      56: putfield      #148                // Field retryTicks:I
+      59: aload_0
+      60: getfield      #148                // Field retryTicks:I
+      63: ifne          75
+      66: aload_0
+      67: iconst_0
+      68: putfield      #150                // Field refreshing:Z
+      71: aload_0
+      72: invokevirtual #153                // Method requestTargets:()V
+      75: aload_0
+      76: getfield      #146                // Field delayTicks:I
+      79: ifle          93
+      82: aload_0
+      83: dup
+      84: getfield      #146                // Field delayTicks:I
+      87: iconst_1
+      88: isub
+      89: putfield      #146                // Field delayTicks:I
+      92: return
+      93: aconst_null
+      94: astore_2
+      95: aload_0
+      96: getfield      #77                 // Field targets:Ljava/util/List;
+      99: dup
+     100: astore_3
+     101: monitorenter
+     102: aload_0
+     103: getfield      #141                // Field index:I
+     106: aload_0
+     107: getfield      #77                 // Field targets:Ljava/util/List;
+     110: invokeinterface #309,  1          // InterfaceMethod java/util/List.size:()I
+     115: if_icmpge     142
+     118: aload_0
+     119: getfield      #77                 // Field targets:Ljava/util/List;
+     122: aload_0
+     123: dup
+     124: getfield      #141                // Field index:I
+     127: dup_x1
+     128: iconst_1
+     129: iadd
+     130: putfield      #141                // Field index:I
+     133: invokeinterface #352,  2          // InterfaceMethod java/util/List.get:(I)Ljava/lang/Object;
+     138: checkcast     #210                // class java/lang/String
+     141: astore_2
+     142: aload_3
+     143: monitorexit
+     144: goto          154
+     147: astore        4
+     149: aload_3
+     150: monitorexit
+     151: aload         4
+     153: athrow
+     154: aload_2
+     155: ifnonnull     175
+     158: aload_0
+     159: getfield      #150                // Field refreshing:Z
+     162: ifne          169
+     165: aload_0
+     166: invokevirtual #153                // Method requestTargets:()V
+     169: aload_0
+     170: iconst_2
+     171: putfield      #146                // Field delayTicks:I
+     174: return
+     175: aload_2
+     176: getstatic     #208                // Field java/util/Locale.ROOT:Ljava/util/Locale;
+     179: invokevirtual #214                // Method java/lang/String.toLowerCase:(Ljava/util/Locale;)Ljava/lang/String;
+     182: astore_3
+     183: aload_0
+     184: getfield      #82                 // Field used:Ljava/util/Set;
+     187: aload_3
+     188: invokeinterface #290,  2          // InterfaceMethod java/util/Set.contains:(Ljava/lang/Object;)Z
+     193: ifeq          197
+     196: return
+     197: aload_0
+     198: getfield      #82                 // Field used:Ljava/util/Set;
+     201: aload_3
+     202: invokeinterface #217,  2          // InterfaceMethod java/util/Set.add:(Ljava/lang/Object;)Z
+     207: pop
+     208: aload_0
+     209: getfield      #163                // Field mc:Lnet/minecraft/class_310;
+     212: invokevirtual #169                // Method net/minecraft/class_310.method_1562:()Lnet/minecraft/class_634;
+     215: aload_2
+     216: invokedynamic #355,  0            // InvokeDynamic #0:makeConcatWithConstants:(Ljava/lang/String;)Ljava/lang/String;
+     221: invokevirtual #359                // Method net/minecraft/class_634.method_45730:(Ljava/lang/String;)V
+     224: aload_0
+     225: iconst_1
+     226: aload_0
+     227: getfield      #127                // Field requestDelay:Lmeteordevelopment/meteorclient/settings/Setting;
+     230: invokevirtual #302                // Method meteordevelopment/meteorclient/settings/Setting.get:()Ljava/lang/Object;
+     233: checkcast     #99                 // class java/lang/Integer
+     236: invokevirtual #306                // Method java/lang/Integer.intValue:()I
+     239: invokestatic  #362                // Method java/lang/Math.max:(II)I
+     242: putfield      #146                // Field delayTicks:I
+     245: return
+    Exception table:
+       from    to  target type
+         102   144   147   any
+         147   151   147   any
+    LineNumberTable:
+      line 88: 7
+      line 89: 35
+      line 90: 75
+      line 91: 93
+      line 92: 95
+      line 93: 154
+      line 94: 175
+      line 95: 208
+      line 96: 224
+      line 97: 245
+}

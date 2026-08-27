@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "tpa-tools",
+  "version": "1.6.1",
+  "name": "TPA Tools",
+  "description": "TPA Tools with Spawner Noti integrated as one module in one addon.",
+  "authors": [
+    "notdutt"
+  ],
+  "environment": "client",
+  "entrypoints": {
+    "meteor": [
+      "me.tpaburst.TPABurstAddon"
+    ]
+  },
+  "custom": {
+    "meteor-client:color": "225,25,25"
+  },
+  "depends": {
+    "java": ">=21",
+    "minecraft": [
+      "1.21.11"
+    ],
+    "meteor-client": "*"
+  }
+}

@@ -1,0 +1,36 @@
+Compiled from "LootHistory.java"
+public final class me.tpaburst.modules.LootHistory extends meteordevelopment.meteorclient.systems.modules.Module {
+  public me.tpaburst.modules.LootHistory();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: getstatic     #1                  // Field me/tpaburst/TPABurstAddon.CATEGORY:Lmeteordevelopment/meteorclient/systems/modules/Category;
+       4: ldc           #7                  // String loot-history
+       6: ldc           #9                  // String Opens the session-only loot history GUI.
+       8: invokespecial #11                 // Method meteordevelopment/meteorclient/systems/modules/Module."<init>":(Lmeteordevelopment/meteorclient/systems/modules/Category;Ljava/lang/String;Ljava/lang/String;)V
+      11: return
+    LineNumberTable:
+      line 2: 0
+
+  public void onActivate();
+    descriptor: ()V
+    Code:
+       0: aload_0
+       1: getfield      #17                 // Field mc:Lnet/minecraft/class_310;
+       4: ifnull        22
+       7: aload_0
+       8: getfield      #17                 // Field mc:Lnet/minecraft/class_310;
+      11: new           #23                 // class me/tpaburst/history/HistoryScreen
+      14: dup
+      15: iconst_0
+      16: invokespecial #25                 // Method me/tpaburst/history/HistoryScreen."<init>":(Z)V
+      19: invokevirtual #28                 // Method net/minecraft/class_310.method_1507:(Lnet/minecraft/class_437;)V
+      22: aload_0
+      23: invokevirtual #34                 // Method isActive:()Z
+      26: ifeq          33
+      29: aload_0
+      30: invokevirtual #38                 // Method disable:()V
+      33: return
+    LineNumberTable:
+      line 2: 0
+}

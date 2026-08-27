@@ -6,3 +6,7 @@ node_modules/
 *.sqlite-shm
 bot/licenses.db
 bot/licenses.db-*
+
+addon/.gradle/
+addon/build/
+addon/out/
