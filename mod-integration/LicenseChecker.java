@@ -21,7 +21,7 @@ import java.time.Duration;
 
 public final class LicenseChecker {
 
-    // Point this at wherever you host the bot's API (see bot/README.md).
+    // Point this at wherever you host the bot's API (see the repo root README.md).
     private static final String VERIFY_URL = "https://your-bot-host.example.com/verify";
     // Must match LICENSE_API_KEY in the bot's .env. Optional — leave blank on
     // both sides to skip this header entirely.

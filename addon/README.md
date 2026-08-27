@@ -28,7 +28,7 @@ Java 21, and Meteor Client, with `me.tpaburst.TPABurstAddon` as the Meteor entry
 ## License gate (`src/main/java/me/tpaburst/license/`)
 
 `TPABurstAddon.onInitialize()` gates module registration on a license check
-— see `../bot/` for the Discord bot that issues and verifies the keys.
+— see the repo root for the Discord bot that issues and verifies the keys.
 Buyers activate in-game with:
 
 ```
@@ -55,8 +55,8 @@ How it works:
 
 Every verify call also sends a `DeviceId` — a random ID generated once and
 saved to `config/tpa-tools/device.id`, not a true hardware fingerprint (see
-the class doc for why). The bot (`bot/src/api/server.js`) locks each key to
-the first device that verifies it:
+the class doc for why). The bot (`api/server.js` in the repo root) locks
+each key to the first device that verifies it:
 
 - First activation on a key with no device bound yet → binds it, valid.
 - Same device again → still valid.
@@ -116,8 +116,8 @@ so this is groundwork for when you do have one, not something already
 running.
 
 Before building: set `LicenseConfig.VERIFY_URL` to wherever the bot is
-publicly hosted (see `../bot/README.md`), and `LicenseConfig.API_KEY` if the
-bot has `LICENSE_API_KEY` set.
+publicly hosted (see `../README.md`), and `LicenseConfig.API_KEY` if the bot
+has `LICENSE_API_KEY` set.
 
 **Verification status.** `LicenseChecker`, `LicenseGate`, `DeviceId`,
 `LicenseState`, and `PeriodicRecheck` were compiled against real Gson/SLF4J

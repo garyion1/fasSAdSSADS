@@ -2,13 +2,18 @@
 
 A Discord bot that issues and verifies license keys for a Minecraft client mod.
 
-- **`bot/`** — the Discord bot (Node.js, discord.js) plus a small HTTP API the
-  mod calls to verify a key at launch. Slash commands are admin-only
-  (`Administrator` for `/license`, `Ban Members`/`Moderate Members` for the
-  moderation commands below — Discord's own permission system, not custom
-  code).
-- **`mod-integration/`** — an example `LicenseChecker.java` showing how the
-  mod side calls the verify API. Adapt it into your mod's codebase.
+- **Repo root** (`index.js`, `db.js`, `commands/`, `api/`, ...) — the
+  Discord bot (Node.js, discord.js) plus a small HTTP API the mod calls to
+  verify a key at launch. Slash commands are admin-only (`Administrator` for
+  `/license`, `Ban Members`/`Moderate Members` for the moderation commands
+  below — Discord's own permission system, not custom code). Deliberately
+  kept at the repo root, not in a subfolder — most cheap bot hosts default
+  to running `npm install && node index.js` from wherever the repo lands,
+  so this avoids needing to reconfigure that.
+- **`addon/`** — the Minecraft addon source, including the license check
+  that talks to this bot.
+- **`mod-integration/`** — a generic example `LicenseChecker.java` for
+  wiring a *different* mod/addon to this same bot.
 
 ## Moderation commands
 
@@ -49,7 +54,6 @@ them — grant those when inviting it, or add them to its role later.
 ## Setup
 
 ```bash
-cd bot
 npm install
 cp .env.example .env
 ```
@@ -80,11 +84,11 @@ Integrations → your bot → /license** in Discord and adjust permissions there
 
 ## Deploying the API publicly
 
-The mod needs to reach `/verify` over the internet, so `bot/` needs to run
-somewhere with a public URL (a VPS, Railway, Fly.io, etc.), not just on your
-laptop. Put it behind HTTPS (a reverse proxy like Caddy/nginx, or the
-platform's built-in TLS) — sending license keys over plain HTTP exposes them
-to anyone on the network path.
+The mod needs to reach `/verify` over the internet, so the bot needs to run
+somewhere with a public URL (a VPS, Railway, Fly.io, a Pterodactyl-based bot
+host, etc.), not just on your laptop. Put it behind HTTPS (a reverse proxy
+like Caddy/nginx, or the platform's built-in TLS) — sending license keys
+over plain HTTP exposes them to anyone on the network path.
 
 ## Limitation: this cannot be made fully crack-proof
 
@@ -120,6 +124,6 @@ want to move the key) — the next device to verify it claims it fresh.
 
 ## Database
 
-SQLite via `better-sqlite3`, stored at `bot/licenses.db` (path configurable
-via `DB_PATH`). It's gitignored — back it up yourself; it's the only record
-of who owns which license.
+SQLite via `better-sqlite3`, stored at `licenses.db` in the repo root (path
+configurable via `DB_PATH`). It's gitignored — back it up yourself; it's the
+only record of who owns which license.

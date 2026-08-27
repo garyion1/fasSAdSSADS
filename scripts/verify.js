@@ -1,4 +1,4 @@
-// Sanity check used by CI (see ../../.github/workflows/ci.yml) and safe to
+// Sanity check used by CI (see ../.github/workflows/ci.yml) and safe to
 // run locally: loads the database against a throwaway file, imports every
 // command module and confirms its slash-command definition builds, then
 // cleans up. Catches syntax errors, bad SlashCommandBuilder calls, and a
@@ -19,7 +19,7 @@ function cleanup() {
 }
 
 try {
-  const db = (await import('../src/db.js')).default;
+  const db = (await import('../db.js')).default;
 
   const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all().map((r) => r.name);
   for (const required of ['licenses', 'warnings']) {
@@ -30,7 +30,7 @@ try {
 
   const commandModules = ['license.js', 'ban.js', 'mute.js', 'warn.js'];
   for (const file of commandModules) {
-    const mod = await import(`../src/commands/${file}`);
+    const mod = await import(`../commands/${file}`);
     if (typeof mod.execute !== 'function') {
       throw new Error(`${file} does not export an execute() function`);
     }
@@ -41,7 +41,7 @@ try {
     console.log(`ok: /${json.name}`);
   }
 
-  await import('../src/api/server.js');
+  await import('../api/server.js');
   console.log('ok: api/server.js imports cleanly');
 
   console.log('verify: all checks passed');

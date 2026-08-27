@@ -4,8 +4,8 @@ node_modules/
 *.sqlite-journal
 *.sqlite-wal
 *.sqlite-shm
-bot/licenses.db
-bot/licenses.db-*
+licenses.db
+licenses.db-*
 
 addon/.gradle/
 addon/build/

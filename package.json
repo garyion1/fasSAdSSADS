@@ -5,8 +5,8 @@
   "type": "module",
   "description": "Discord bot that issues and verifies licenses for a Minecraft addon.",
   "scripts": {
-    "start": "node src/index.js",
-    "deploy-commands": "node src/deploy-commands.js",
+    "start": "node index.js",
+    "deploy-commands": "node deploy-commands.js",
     "verify": "node scripts/verify.js"
   },
   "dependencies": {
