@@ -10,3 +10,7 @@ bot/licenses.db-*
 addon/.gradle/
 addon/build/
 addon/out/
+
+# Raw compiled .class files from the source-recovery zip — redundant with
+# the original jar, which you already have. Not committed here.
+addon/original-jar-contents/
