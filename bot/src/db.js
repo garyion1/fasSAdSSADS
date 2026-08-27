@@ -23,6 +23,16 @@ db.exec(`
     hwid_hash TEXT
   );
   CREATE INDEX IF NOT EXISTS idx_licenses_user ON licenses(discord_user_id);
+
+  CREATE TABLE IF NOT EXISTS warnings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    guild_id TEXT NOT NULL,
+    discord_user_id TEXT NOT NULL,
+    moderator_id TEXT NOT NULL,
+    reason TEXT NOT NULL,
+    created_at INTEGER NOT NULL
+  );
+  CREATE INDEX IF NOT EXISTS idx_warnings_user ON warnings(guild_id, discord_user_id);
 `);
 
 // Lightweight migration for databases created before hwid locking existed.

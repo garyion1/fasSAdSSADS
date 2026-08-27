@@ -2,6 +2,9 @@ import 'dotenv/config';
 import { Client, GatewayIntentBits, Events } from 'discord.js';
 import { createServer } from './api/server.js';
 import * as licenseCommand from './commands/license.js';
+import * as banCommand from './commands/ban.js';
+import * as muteCommand from './commands/mute.js';
+import * as warnCommand from './commands/warn.js';
 
 const { DISCORD_TOKEN, PORT } = process.env;
 
@@ -10,7 +13,9 @@ if (!DISCORD_TOKEN) {
   process.exit(1);
 }
 
-const commands = new Map([[licenseCommand.data.name, licenseCommand]]);
+const commands = new Map(
+  [licenseCommand, banCommand, muteCommand, warnCommand].map((cmd) => [cmd.data.name, cmd]),
+);
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

@@ -4,9 +4,31 @@ A Discord bot that issues and verifies license keys for a Minecraft client mod.
 
 - **`bot/`** — the Discord bot (Node.js, discord.js) plus a small HTTP API the
   mod calls to verify a key at launch. Slash commands are admin-only
-  (`Administrator` permission by default).
+  (`Administrator` for `/license`, `Ban Members`/`Moderate Members` for the
+  moderation commands below — Discord's own permission system, not custom
+  code).
 - **`mod-integration/`** — an example `LicenseChecker.java` showing how the
   mod side calls the verify API. Adapt it into your mod's codebase.
+
+## Moderation commands
+
+Separate from licensing — general server moderation using Discord's own
+ban/timeout system:
+
+- **`/ban user reason delete_days`** — bans a member, optionally deleting up
+  to 7 days of their recent messages. DMs them the reason first (best
+  effort; skipped if their DMs are closed).
+- **`/mute user duration reason`** — times the member out (Discord's native
+  mute) for `duration` (e.g. `10m`, `2h`, `1d` — defaults to `10m`, capped
+  at Discord's own 28-day limit). Lifts automatically when it expires.
+- **`/warn user reason`** — logs a warning in the bot's database and tells
+  the moderator how many warnings that user now has in this server. There's
+  no `/warnings` list command yet or auto-action at a threshold — ask if you
+  want either.
+
+All three require the corresponding Discord permission to run, and the bot
+itself needs `Ban Members` / `Moderate Members` in the server to execute
+them — grant those when inviting it, or add them to its role later.
 
 ## How it works
 
