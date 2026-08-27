@@ -27,32 +27,46 @@ Java 21, and Meteor Client, with `me.tpaburst.TPABurstAddon` as the Meteor entry
 
 ## License gate (`src/main/java/me/tpaburst/license/`)
 
-`TPABurstAddon.onInitialize()` now calls `LicenseGate.check()` before
-registering any modules — see `../bot/` for the Discord bot that issues and
-verifies the keys. How it works:
+`TPABurstAddon.onInitialize()` gates module registration on a license check
+— see `../bot/` for the Discord bot that issues and verifies the keys.
+Buyers activate in-game with:
 
-1. On launch, `LicenseGate` reads `config/tpa-tools/license.key` (relative to
-   the game's run directory). Buyers paste the key they got via Discord DM
-   into that file.
-2. It POSTs the key to the bot's `/verify` endpoint via `LicenseChecker`.
-3. Valid → modules register normally. Revoked/expired/not found → modules
-   are skipped and a warning is logged. Unreachable server → **fails open**
-   (allows the session) so a bot outage doesn't lock out paying users
-   mid-session; it's re-checked next launch.
+```
+/key TPA-XXXXX-XXXXX-XXXXX-XXXXX
+```
+
+How it works:
+
+1. `/key` is a **Fabric client command** (`KeyCommand`, via
+   `fabric-command-api-v2`) — it's intercepted and consumed on the client
+   and never sent to the server, so the license key never ends up in a
+   server's chat log.
+2. `LicenseGate.activate()` saves the key to `config/tpa-tools/license.key`
+   (relative to the game's run directory) and immediately calls the bot's
+   `/verify` endpoint via `LicenseChecker`.
+3. Valid → modules register right away, in that same session. Revoked/
+   expired/not found → an in-game error, modules stay off. Unreachable
+   server → **fails open** (key is saved, modules enabled for this session,
+   re-verified next launch) so a bot outage never locks out a paying user.
+4. On every subsequent launch, `LicenseGate.check()` re-reads the saved key
+   and re-verifies it the same way, without needing `/key` again.
 
 Before building: set `LicenseConfig.VERIFY_URL` to wherever the bot is
 publicly hosted (see `../bot/README.md`), and `LicenseConfig.API_KEY` if the
 bot has `LICENSE_API_KEY` set.
 
-This was written and unit/integration-tested against the real bot API
-outside this repo's build (Meteor Client/Fabric/Minecraft dependencies
-aren't available in that environment — see `build.gradle`'s note). The three
-license files only use `java.net.http`, Gson, and SLF4J, all already on a
-Fabric/Meteor addon's classpath, so they should compile as-is; double-check
-once you build against your real Meteor Client version.
-
-The key is read from a plain file rather than an in-game command or Meteor
-Setting, specifically to avoid guessing at Command/Settings API signatures
-that vary by Meteor Client version. A chat-command or in-addon-settings key
-entry flow is a reasonable upgrade once someone can compile-check it against
-the actual dependency.
+**Verification status.** `LicenseChecker` and `LicenseGate` were compiled
+against real Gson/SLF4J jars and integration-tested end to end against the
+bot's actual `/verify` endpoint (missing key, valid key, revoked key,
+unreachable server) — all four checked out. `KeyCommand` and the
+`ClientCommandRegistrationCallback` registration in `TPABurstAddon` could
+**not** be compile-checked the same way: they depend on Fabric API,
+Minecraft, and Meteor Client, none of which are configured in this
+project's `build.gradle` yet (intentionally — see the note there) and
+weren't available in the environment this was written in. They're written
+against the standard, documented `fabric-command-api-v2` signatures, but
+treat them as unverified until you build this for real against Minecraft
+1.21.11 / your Meteor Client version — the signatures for
+`ClientCommandRegistrationCallback` and `CommandRegistryAccess` have shifted
+across Fabric API versions before, so a small adjustment there wouldn't be
+surprising.
