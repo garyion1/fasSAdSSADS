@@ -51,14 +51,34 @@ How it works:
 4. On every subsequent launch, `LicenseGate.check()` re-reads the saved key
    and re-verifies it the same way, without needing `/key` again.
 
+### Device locking
+
+Every verify call also sends a `DeviceId` — a random ID generated once and
+saved to `config/tpa-tools/device.id`, not a true hardware fingerprint (see
+the class doc for why). The bot (`bot/src/api/server.js`) locks each key to
+the first device that verifies it:
+
+- First activation on a key with no device bound yet → binds it, valid.
+- Same device again → still valid.
+- A *different* device using the same key → rejected with `hwid_mismatch`,
+  surfaced in-game as "already activated on another device."
+- `/license reset-hwid <key>` (Discord, admin-only) clears the binding —
+  use it when a buyer gets a new PC, or to move the key at your discretion.
+
+Not tamper-proof — someone could delete `device.id` to get a fresh random
+ID — but the bot still remembers the *original* binding, so that alone
+doesn't let a shared key work on a second PC without an admin resetting it.
+
 Before building: set `LicenseConfig.VERIFY_URL` to wherever the bot is
 publicly hosted (see `../bot/README.md`), and `LicenseConfig.API_KEY` if the
 bot has `LICENSE_API_KEY` set.
 
-**Verification status.** `LicenseChecker` and `LicenseGate` were compiled
-against real Gson/SLF4J jars and integration-tested end to end against the
-bot's actual `/verify` endpoint (missing key, valid key, revoked key,
-unreachable server) — all four checked out. `KeyCommand` and the
+**Verification status.** `LicenseChecker`, `LicenseGate`, and `DeviceId` were
+compiled against real Gson/SLF4J jars and integration-tested end to end
+against the bot's actual `/verify` endpoint — missing key, valid key,
+revoked key, unreachable server, and the full device-lock lifecycle
+(device A binds, device B rejected, admin reset, device B takes over,
+device A then rejected) — all confirmed. `KeyCommand` and the
 `ClientCommandRegistrationCallback` registration in `TPABurstAddon` could
 **not** be compile-checked the same way: they depend on Fabric API,
 Minecraft, and Meteor Client, none of which are configured in this

@@ -34,6 +34,10 @@ export function maskKey(prefix, last4) {
   return `${prefix}-****-****-****-${last4}`;
 }
 
+export function hashHwid(hwid) {
+  return crypto.createHash('sha256').update(hwid.trim()).digest('hex');
+}
+
 const DURATION_RE = /^(\d+)(d|w|m|y)$/i;
 const UNIT_MS = {
   d: 24 * 60 * 60 * 1000,

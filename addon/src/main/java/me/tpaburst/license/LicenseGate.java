@@ -17,6 +17,11 @@ import java.nio.file.Path;
  * editing the file by hand. check() runs once at startup against whatever
  * is already saved; activate() is called by "/key" to save a new key and
  * verify it immediately.
+ *
+ * Every verify call also sends this installation's DeviceId. The bot locks
+ * a key to whichever device first verifies it, so a "hwid_mismatch" reason
+ * means the key is already bound elsewhere — that's fixed with the bot's
+ * /license reset-hwid, not anything the player can do locally.
  */
 public final class LicenseGate {
 
@@ -60,7 +65,7 @@ public final class LicenseGate {
     }
 
     private static LicenseChecker.Result verify(String key) {
-        return LicenseChecker.verify(key);
+        return LicenseChecker.verify(key, DeviceId.get());
     }
 
     /** Fails open only on a network error, so a bot outage never locks out a paying user mid-session. */

@@ -24,7 +24,12 @@ public final class LicenseChecker {
         }
     }
 
-    public static Result verify(String licenseKey) {
+    /**
+     * @param deviceId this installation's ID (see DeviceId), used server-side
+     *                 to lock a key to the first device that activates it.
+     *                 Pass null/blank to skip device locking for this call.
+     */
+    public static Result verify(String licenseKey, String deviceId) {
         if (licenseKey == null || licenseKey.isBlank()) {
             return Result.invalid("missing_key");
         }
@@ -32,6 +37,9 @@ public final class LicenseChecker {
         try {
             JsonObject body = new JsonObject();
             body.addProperty("key", licenseKey);
+            if (deviceId != null && !deviceId.isBlank()) {
+                body.addProperty("hwid", deviceId);
+            }
 
             HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                     .uri(URI.create(LicenseConfig.VERIFY_URL))

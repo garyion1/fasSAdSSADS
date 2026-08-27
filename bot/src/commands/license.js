@@ -42,6 +42,12 @@ export const data = new SlashCommandBuilder()
       .setName('info')
       .setDescription('Look up a license by key')
       .addStringOption((o) => o.setName('key').setDescription('The license key').setRequired(true)),
+  )
+  .addSubcommand((sub) =>
+    sub
+      .setName('reset-hwid')
+      .setDescription('Unlock a license from its bound device (e.g. buyer got a new PC)')
+      .addStringOption((o) => o.setName('key').setDescription('The license key').setRequired(true)),
   );
 
 function findByKey(rawKey) {
@@ -188,9 +194,32 @@ export async function execute(interaction) {
           value: row.last_verified_at ? `<t:${Math.floor(row.last_verified_at / 1000)}:R>` : 'Never',
           inline: true,
         },
+        { name: 'Device lock', value: row.hwid_hash ? 'Bound to a device' : 'Not bound yet', inline: true },
       )
       .setColor(row.status === 'active' ? 0x57f287 : 0xed4245);
     await interaction.reply({ embeds: [embed], ephemeral: true });
+    return;
+  }
+
+  if (sub === 'reset-hwid') {
+    const rawKey = interaction.options.getString('key', true);
+    const row = findByKey(rawKey);
+    if (!row) {
+      await interaction.reply({ content: 'No license found with that key.', ephemeral: true });
+      return;
+    }
+    if (!row.hwid_hash) {
+      await interaction.reply({
+        content: `\`${maskKey(KEY_PREFIX, row.key_last4)}\` isn't bound to a device yet — nothing to reset.`,
+        ephemeral: true,
+      });
+      return;
+    }
+    db.prepare('UPDATE licenses SET hwid_hash = NULL WHERE id = ?').run(row.id);
+    await interaction.reply({
+      content: `Unlocked \`${maskKey(KEY_PREFIX, row.key_last4)}\` — it will bind to whichever device runs \`/key\` next.`,
+      ephemeral: true,
+    });
     return;
   }
 }

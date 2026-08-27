@@ -19,9 +19,17 @@ db.exec(`
     status TEXT NOT NULL DEFAULT 'active',
     created_at INTEGER NOT NULL,
     expires_at INTEGER,
-    last_verified_at INTEGER
+    last_verified_at INTEGER,
+    hwid_hash TEXT
   );
   CREATE INDEX IF NOT EXISTS idx_licenses_user ON licenses(discord_user_id);
 `);
+
+// Lightweight migration for databases created before hwid locking existed.
+try {
+  db.exec('ALTER TABLE licenses ADD COLUMN hwid_hash TEXT');
+} catch (err) {
+  if (!/duplicate column/i.test(err.message)) throw err;
+}
 
 export default db;

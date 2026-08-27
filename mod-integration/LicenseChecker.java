@@ -35,7 +35,12 @@ public final class LicenseChecker {
         }
     }
 
-    public static Result verify(String licenseKey) {
+    /**
+     * @param deviceId optional per-install ID for device locking (bot binds
+     *                 a key to the first device that verifies it). Pass
+     *                 null/blank to skip device locking.
+     */
+    public static Result verify(String licenseKey, String deviceId) {
         if (licenseKey == null || licenseKey.isBlank()) {
             return Result.invalid("missing_key");
         }
@@ -43,6 +48,9 @@ public final class LicenseChecker {
         try {
             JsonObject body = new JsonObject();
             body.addProperty("key", licenseKey);
+            if (deviceId != null && !deviceId.isBlank()) {
+                body.addProperty("hwid", deviceId);
+            }
 
             HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                     .uri(URI.create(VERIFY_URL))

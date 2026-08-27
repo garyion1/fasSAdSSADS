@@ -48,6 +48,10 @@ public final class KeyCommand {
             } else {
                 context.getSource().sendFeedback(Text.literal("TPA Tools: license activated, modules enabled."));
             }
+        } else if ("hwid_mismatch".equals(activation.reason())) {
+            context.getSource().sendError(Text.literal(
+                    "TPA Tools: this license is already activated on another device. "
+                            + "Contact the seller to reset it if this one is now your main PC."));
         } else {
             context.getSource().sendError(Text.literal(
                     "TPA Tools: license invalid (" + activation.reason() + "). Check your key and try again."));
