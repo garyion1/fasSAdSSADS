@@ -17,3 +17,31 @@ java {
 
 // Meteor/Minecraft dependencies are intentionally not guessed here.
 // Add the same Fabric Loom + Meteor dependencies used by your 1.21.11 environment.
+
+// --- Obfuscation, once the real build above exists (untested here — no ---
+// --- Loom/Meteor deps configured in this project yet, see above) ---------
+//
+// 1. Add the ProGuard Gradle plugin:
+//      plugins { id 'com.guardsquare.proguard' version '7.5.0' }
+//    (or the classic 'proguard-gradle' artifact — either works)
+//
+// 2. Add a task that runs on the jar Loom's remapJar task produces (the
+//    "named"-mapped, distributable jar — NOT the intermediate one), using
+//    the rules in proguard-rules.pro next to this file:
+//
+// import proguard.gradle.ProGuardTask
+// tasks.register('obfuscate', ProGuardTask) {
+//     dependsOn tasks.named('remapJar')
+//     injars tasks.named('remapJar').get().archiveFile
+//     outjars layout.buildDirectory.file('libs/tpa-tools-obfuscated.jar')
+//     configuration file('proguard-rules.pro')
+//     // Points ProGuard at the JDK + Minecraft/Fabric/Meteor jars so it
+//     // can tell "our code" (safe to rename) from "external API" (must
+//     // keep matching what those libraries expect):
+//     libraryjars "${System.getProperty('java.home')}/jmods"
+//     // libraryjars configurations.minecraftLibraries — wire this to
+//     // however Loom exposes its dependency jars in your setup.
+// }
+//
+// 3. Ship build/libs/tpa-tools-obfuscated.jar instead of the plain remapped
+//    one.

@@ -69,16 +69,67 @@ Not tamper-proof — someone could delete `device.id` to get a fresh random
 ID — but the bot still remembers the *original* binding, so that alone
 doesn't let a shared key work on a second PC without an admin resetting it.
 
+### Anti-removal / anti-tamper
+
+Nothing running client-side can be made literally impossible to strip out —
+anyone with enough skill can eventually decompile and patch bytecode. What's
+realistic is raising the cost of doing that. Two things do that here, plus a
+third that isn't wired up yet:
+
+- **`LicenseState` — a time-based flag, not a plain boolean.** A field like
+  `public static boolean licensed` is one of the first things someone
+  patching a jar searches for — flip one byte and it's always `true`
+  forever. Instead, `LicenseState.isLicensed()` means "now is before
+  `validUntil`", and `validUntil` only moves forward when a real check
+  succeeds. So even if someone finds and deletes the check itself, nothing
+  is left extending `validUntil` and it goes false a little while later.
+  Still ultimately a comparison sitting in bytecode — just a harder one to
+  find and a harder one to fully defeat than a single flag.
+- **`PeriodicRecheck` — verifies every 15 minutes, not just at boot.** A
+  check that only ever runs once at startup is one call site to patch out.
+  One that keeps running for as long as the game session lasts is a moving
+  target, and it's what keeps `LicenseState` alive (see above).
+- **Not yet possible: wiring the check into each module.** Right now only
+  `TPABurstAddon` (the entrypoint) gates registration — the module classes
+  (`TPABurst.java`, `AutoLootSell.java`, etc.) are still 20-line bytecode-
+  reference placeholders, not real source (see "Important limitation"
+  above), so there's no real method body to add a check *inside*. Once
+  they're properly decompiled, the highest-value next step is having each
+  module's own activation/tick logic call `LicenseState.isLicensed()`
+  directly — that turns "one gate at startup" into "every feature keeps
+  checking for itself," which is a meaningfully harder thing to patch
+  around than a single entrypoint.
+
+### Obfuscation (`proguard-rules.pro`)
+
+The *original* jar you uploaded wasn't obfuscated at all — that's the whole
+reason the source recovery in this folder was possible: decompiling it gave
+back nearly-readable code. `proguard-rules.pro` (next to this file) has
+ProGuard rules ready for the real build once it exists: keep
+`me.tpaburst.TPABurstAddon` by its exact name (Meteor looks it up via
+`fabric.mod.json`), and let everything else — including the whole license
+package — get renamed and folded into something much less readable.
+`build.gradle` has a commented block showing how to wire it in as a
+post-`remapJar` step. **Not active or tested** — there's no Loom/Meteor
+build configured in this project yet (see `build.gradle`'s existing note),
+so this is groundwork for when you do have one, not something already
+running.
+
 Before building: set `LicenseConfig.VERIFY_URL` to wherever the bot is
 publicly hosted (see `../bot/README.md`), and `LicenseConfig.API_KEY` if the
 bot has `LICENSE_API_KEY` set.
 
-**Verification status.** `LicenseChecker`, `LicenseGate`, and `DeviceId` were
-compiled against real Gson/SLF4J jars and integration-tested end to end
-against the bot's actual `/verify` endpoint — missing key, valid key,
-revoked key, unreachable server, and the full device-lock lifecycle
-(device A binds, device B rejected, admin reset, device B takes over,
-device A then rejected) — all confirmed. `KeyCommand` and the
+**Verification status.** `LicenseChecker`, `LicenseGate`, `DeviceId`,
+`LicenseState`, and `PeriodicRecheck` were compiled against real Gson/SLF4J
+jars and integration-tested end to end against the bot's actual `/verify`
+endpoint — missing key, valid key, revoked key, unreachable server, the full
+device-lock lifecycle (device A binds, device B rejected, admin reset,
+device B takes over, device A then rejected), and `LicenseState` correctly
+going true on a valid check, true on a network error (fail-open), and false
+immediately on an explicit revoke — all confirmed. `build.gradle` was
+parsed with the real `gradle` CLI to confirm the new comment block doesn't
+break anything (there's still no Loom build configured to actually run).
+`KeyCommand` and the
 `ClientCommandRegistrationCallback` registration in `TPABurstAddon` could
 **not** be compile-checked the same way: they depend on Fabric API,
 Minecraft, and Meteor Client, none of which are configured in this

@@ -22,11 +22,19 @@ import java.nio.file.Path;
  * a key to whichever device first verifies it, so a "hwid_mismatch" reason
  * means the key is already bound elsewhere — that's fixed with the bot's
  * /license reset-hwid, not anything the player can do locally.
+ *
+ * Every call here also updates LicenseState — see its doc for why that's a
+ * time-based flag renewed by successful checks, not a plain boolean.
  */
 public final class LicenseGate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger("TPA Tools License");
     private static final Path KEY_FILE = Path.of("config", "tpa-tools", "license.key");
+
+    // Comfortably longer than PeriodicRecheck's interval so one slow tick
+    // doesn't lapse the license; short enough that killing the recheck
+    // thread (or the check itself) still lapses it before too long.
+    private static final long STATE_GRACE_MS = 20 * 60 * 1000;
 
     private LicenseGate() {}
 
@@ -72,16 +80,19 @@ public final class LicenseGate {
     private static boolean isValidOrFailOpen(LicenseChecker.Result result) {
         if (result.valid()) {
             LOGGER.info("License OK.");
+            LicenseState.extend(STATE_GRACE_MS);
             return true;
         }
 
         String reason = result.reason() == null ? "unknown" : result.reason();
         if (reason.startsWith("network_error")) {
             LOGGER.warn("Could not reach the license server ({}). Allowing this session; will re-verify next launch.", reason);
+            LicenseState.extend(STATE_GRACE_MS);
             return true;
         }
 
         LOGGER.warn("License invalid ({}). Modules disabled. Contact the seller if this is a mistake.", reason);
+        LicenseState.invalidateNow();
         return false;
     }
 

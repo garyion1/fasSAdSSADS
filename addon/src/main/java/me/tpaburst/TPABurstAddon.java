@@ -3,6 +3,7 @@ package me.tpaburst;
 import dev.notdutt.spawnernoti.modules.SpawnerNotifier;
 import me.tpaburst.license.KeyCommand;
 import me.tpaburst.license.LicenseGate;
+import me.tpaburst.license.PeriodicRecheck;
 import me.tpaburst.modules.AutoLootSell;
 import me.tpaburst.modules.AutoStrength;
 import me.tpaburst.modules.KillHistory;
@@ -38,6 +39,10 @@ public class TPABurstAddon extends MeteorAddon {
     public static synchronized void registerModules() {
         if (modulesRegistered) return;
         modulesRegistered = true;
+
+        // Keeps re-verifying every 15 min instead of trusting this one boot-time
+        // check forever — see LicenseState/PeriodicRecheck for why that matters.
+        PeriodicRecheck.start();
 
         Modules.get().add(new TPABurst());
         Modules.get().add(new AutoLootSell());
