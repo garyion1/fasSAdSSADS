@@ -15,6 +15,10 @@ A Discord bot that issues and verifies license keys for a Minecraft client mod.
 - **`mod-integration/`** — a generic example `LicenseChecker.java` for
   wiring a *different* mod/addon to this same bot.
 
+Deploying on a cheap/free bot host (Bot-Hosting.net or similar)? See
+[`HOSTING.md`](HOSTING.md) — a step-by-step playbook for that specific kind
+of panel, including the exact fixes for problems that come up there.
+
 ## Moderation commands
 
 Separate from licensing — general server moderation using Discord's own
