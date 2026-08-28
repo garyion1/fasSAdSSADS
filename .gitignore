@@ -7,6 +7,10 @@ node_modules/
 licenses.db
 licenses.db-*
 
+# The built addon jar /download serves. Uploaded directly to the host, not
+# committed — it's a binary build artifact, not source.
+releases/
+
 addon/.gradle/
 addon/build/
 addon/out/

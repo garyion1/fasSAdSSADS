@@ -5,6 +5,7 @@ import * as licenseCommand from './commands/license.js';
 import * as banCommand from './commands/ban.js';
 import * as muteCommand from './commands/mute.js';
 import * as warnCommand from './commands/warn.js';
+import * as downloadCommand from './commands/download.js';
 
 const { DISCORD_TOKEN, PORT } = process.env;
 
@@ -14,7 +15,7 @@ if (!DISCORD_TOKEN) {
 }
 
 const commands = new Map(
-  [licenseCommand, banCommand, muteCommand, warnCommand].map((cmd) => [cmd.data.name, cmd]),
+  [licenseCommand, banCommand, muteCommand, warnCommand, downloadCommand].map((cmd) => [cmd.data.name, cmd]),
 );
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });

@@ -28,7 +28,7 @@ try {
     }
   }
 
-  const commandModules = ['license.js', 'ban.js', 'mute.js', 'warn.js'];
+  const commandModules = ['license.js', 'ban.js', 'mute.js', 'warn.js', 'download.js'];
   for (const file of commandModules) {
     const mod = await import(`../commands/${file}`);
     if (typeof mod.execute !== 'function') {

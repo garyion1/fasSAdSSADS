@@ -39,15 +39,37 @@ looking at an older checkout, `git pull` first.
    | `LICENSE_API_KEY` | optional shared secret between the bot and the addon |
 
 4. Press **Start**.
-5. Once it's running, open the console and run this **once** to register
+5. **Stop** the server again, and in the console run this once to register
    the slash commands:
    ```
    npm run deploy-commands
    ```
-   (Only needed again if you add/change a command later.)
+   This has to run with the server stopped — while it's running, the
+   console is attached to the live bot process, not a shell. You'll see
+   `Registered 5 command(s) to guild ...`. Then **Start** it again.
+6. Upload the built addon jar (see "Making /download work" below) so that
+   command has something to serve.
 
 That's it — no `npm install-scripts approve` step anymore, no `cd` into a
 subfolder, nothing else to configure.
+
+## Making /download work
+
+`/download` sends whoever runs it the addon jar as a Discord attachment.
+It needs an actual file to exist first:
+
+1. Build the addon (`addon/` in this repo) into a jar — this needs Fabric
+   Loom + Meteor Client set up, which has to happen on your own machine or
+   dev environment, not on the bot host.
+2. Upload that jar to the bot host's Files tab, at **`releases/latest.jar`**
+   (create the `releases` folder if it isn't there). The exact filename
+   matters — `latest.jar`, unless you set a `JAR_PATH` env var pointing
+   somewhere else.
+3. That's it — no restart needed, `/download` reads the file fresh each
+   time it's run. To ship a new version, just overwrite that file.
+
+Until step 2 is done, `/download` replies with a friendly "hasn't been
+uploaded yet" message instead of erroring.
 
 ## Updating later (new code pushed to GitHub)
 
@@ -70,6 +92,8 @@ subfolder, nothing else to configure.
 | `DiscordAPIError` / `401`/`403` from Discord | Token is wrong or was reset — check it matches the Developer Portal exactly |
 | `Could not locate the bindings file` (better-sqlite3) | You're on an old checkout from before the `node:sqlite` switch — pull the latest commit |
 | `ExperimentalWarning: SQLite is an experimental feature` | Harmless, ignore it — doesn't affect anything |
+| Old/wrong commands show up in Discord, or new ones (`/ban`, `/download`, ...) are missing | Slash commands are registered on Discord's side and persist independently of your code — you haven't run `npm run deploy-commands` since the last time commands changed. Do that (server stopped), then Start again |
+| `/download` says the jar hasn't been uploaded | Expected until you upload it — see "Making /download work" above |
 
 When in doubt: copy the whole console output and share it — that's always
 enough to diagnose from, no need to guess at what's wrong first.

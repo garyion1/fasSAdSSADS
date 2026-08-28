@@ -39,19 +39,29 @@ All three require the corresponding Discord permission to run, and the bot
 itself needs `Ban Members` / `Moderate Members` in the server to execute
 them — grant those when inviting it, or add them to its role later.
 
+## /download
+
+Open to everyone — sends the addon jar as a Discord attachment, with a
+reminder to run `/key` afterward. Reads the file from `JAR_PATH` (env var,
+defaults to `releases/latest.jar`); replies with a friendly message instead
+of erroring if that file doesn't exist yet. See "Making /download work" in
+`HOSTING.md` for how to actually get a jar there.
+
 ## How it works
 
-1. An admin runs `/license create @buyer [duration]` in Discord.
-2. The bot generates a random key, stores its SHA-256 hash (never the raw
+1. A buyer runs `/download` to get the addon jar (see "Making /download
+   work" in `HOSTING.md` — needs the built jar uploaded first).
+2. An admin runs `/license create @buyer [duration]` in Discord.
+3. The bot generates a random key, stores its SHA-256 hash (never the raw
    key) in SQLite, and DMs the buyer the raw key once.
-3. The buyer runs `/key <license>` in-game to activate it.
-4. On launch (and on `/key`), the mod POSTs the key — plus a per-install
+5. The buyer runs `/key <license>` in-game to activate it.
+6. On launch (and on `/key`), the mod POSTs the key — plus a per-install
    device ID — to the bot's `/verify` endpoint. The bot hashes the key,
    looks it up, and returns whether it's valid, revoked, or expired. The
    first device to verify a key binds it; a different device using the same
    key is rejected (`hwid_mismatch`) until an admin runs
    `/license reset-hwid`.
-5. If a key leaks or a buyer requests a chargeback, `/license revoke` (or
+7. If a key leaks or a buyer requests a chargeback, `/license revoke` (or
    `/license reissue` to rotate it) takes effect immediately — the next
    launch will fail verification.
 
