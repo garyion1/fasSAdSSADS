@@ -84,12 +84,16 @@ Fill in `.env`:
 - `LICENSE_API_KEY` — optional shared secret the mod sends as `X-Api-Key`.
   Filters out casual scanning of the endpoint; see the caveat below.
 
-Register the slash command, then start the bot:
+Start the bot:
 
 ```bash
-npm run deploy-commands
 npm start
 ```
+
+Slash commands are registered with Discord automatically every time the
+bot starts (look for `Slash commands registered: ...` in the output) — no
+separate step needed. `npm run deploy-commands` still exists if you want to
+register without starting the whole bot (e.g. from CI), but it's optional.
 
 By default only server members with the `Administrator` permission can run
 `/license`. To allow a specific role instead, go to **Server Settings →

@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { Client, GatewayIntentBits, Events } from 'discord.js';
 import { createServer } from './api/server.js';
+import { registerCommands } from './registerCommands.js';
 import * as licenseCommand from './commands/license.js';
 import * as banCommand from './commands/ban.js';
 import * as muteCommand from './commands/mute.js';
@@ -14,9 +15,20 @@ if (!DISCORD_TOKEN) {
   process.exit(1);
 }
 
-const commands = new Map(
-  [licenseCommand, banCommand, muteCommand, warnCommand, downloadCommand].map((cmd) => [cmd.data.name, cmd]),
-);
+const commandModules = [licenseCommand, banCommand, muteCommand, warnCommand, downloadCommand];
+const commands = new Map(commandModules.map((cmd) => [cmd.data.name, cmd]));
+
+// Registers/updates slash commands on every startup — no separate manual
+// step to remember. Doesn't block the bot from starting if it fails (e.g.
+// DISCORD_CLIENT_ID missing), since the bot itself is still useful; the
+// error is printed so it's obvious why commands aren't showing up.
+try {
+  const result = await registerCommands(commandModules.map((cmd) => cmd.data));
+  console.log(`Slash commands registered: ${result.count} command(s) to ${result.scope}.`);
+} catch (err) {
+  console.error('Failed to register slash commands:', err.message);
+  console.error('The bot will still start, but commands may not appear in Discord until this is fixed.');
+}
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 

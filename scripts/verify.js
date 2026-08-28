@@ -44,6 +44,12 @@ try {
   await import('../api/server.js');
   console.log('ok: api/server.js imports cleanly');
 
+  const { registerCommands } = await import('../registerCommands.js');
+  if (typeof registerCommands !== 'function') {
+    throw new Error('registerCommands.js does not export a registerCommands() function');
+  }
+  console.log('ok: registerCommands.js imports cleanly');
+
   console.log('verify: all checks passed');
 } catch (err) {
   console.error('verify: FAILED —', err.message);

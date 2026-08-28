@@ -38,20 +38,15 @@ looking at an older checkout, `git pull` first.
    | `PORT` | must match the port shown in the **Network** tab |
    | `LICENSE_API_KEY` | optional shared secret between the bot and the addon |
 
-4. Press **Start**.
-5. **Stop** the server again, and in the console run this once to register
-   the slash commands:
-   ```
-   npm run deploy-commands
-   ```
-   This has to run with the server stopped — while it's running, the
-   console is attached to the live bot process, not a shell. You'll see
-   `Registered 5 command(s) to guild ...`. Then **Start** it again.
-6. Upload the built addon jar (see "Making /download work" below) so that
+4. Press **Start**. That's the whole thing — the bot registers its slash
+   commands with Discord automatically every time it starts (look for
+   `Slash commands registered: 5 command(s) to guild ...` near the top of
+   the console output). No separate command to run, nothing to remember.
+5. Upload the built addon jar (see "Making /download work" below) so that
    command has something to serve.
 
-That's it — no `npm install-scripts approve` step anymore, no `cd` into a
-subfolder, nothing else to configure.
+That's it — no `npm install-scripts approve` step, no `npm run
+deploy-commands` step, no `cd` into a subfolder, nothing else to configure.
 
 ## Making /download work
 
@@ -92,7 +87,8 @@ uploaded yet" message instead of erroring.
 | `DiscordAPIError` / `401`/`403` from Discord | Token is wrong or was reset — check it matches the Developer Portal exactly |
 | `Could not locate the bindings file` (better-sqlite3) | You're on an old checkout from before the `node:sqlite` switch — pull the latest commit |
 | `ExperimentalWarning: SQLite is an experimental feature` | Harmless, ignore it — doesn't affect anything |
-| Old/wrong commands show up in Discord, or new ones (`/ban`, `/download`, ...) are missing | Slash commands are registered on Discord's side and persist independently of your code — you haven't run `npm run deploy-commands` since the last time commands changed. Do that (server stopped), then Start again |
+| Old/wrong commands show up in Discord, or new ones are missing | Check the console for `Slash commands registered: ...` right after Start — if it's not there, or shows an error instead, that's why. If it IS there and commands still don't show, the bot most likely isn't actually a member of that server yet (see "Bot not invited" below) |
+| Bot's commands don't appear in Discord at all, even though the bot is online | The bot needs to be invited/authorized to the server with the `applications.commands` scope, not just `bot` — inviting with only `bot` lets it come online but its slash commands never register there. Re-invite it via `https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&permissions=8&scope=bot%20applications.commands` (swap in your real client ID), picking the same server |
 | `/download` says the jar hasn't been uploaded | Expected until you upload it — see "Making /download work" above |
 
 When in doubt: copy the whole console output and share it — that's always
