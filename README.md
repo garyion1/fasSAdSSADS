@@ -124,6 +124,9 @@ want to move the key) — the next device to verify it claims it fresh.
 
 ## Database
 
-SQLite via `better-sqlite3`, stored at `licenses.db` in the repo root (path
-configurable via `DB_PATH`). It's gitignored — back it up yourself; it's the
-only record of who owns which license.
+SQLite via Node's built-in `node:sqlite` (no native module to compile —
+avoids cheap hosts that block install scripts for native addons), stored at
+`licenses.db` in the repo root (path configurable via `DB_PATH`). It's
+gitignored — back it up yourself; it's the only record of who owns which
+license. Requires Node.js 22.5+ (unflagged since 23.4+; still logs a
+harmless "experimental" warning on startup, which doesn't affect anything).

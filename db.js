@@ -1,13 +1,17 @@
-import Database from 'better-sqlite3';
+import { DatabaseSync } from 'node:sqlite';
 import path from 'node:path';
 import 'dotenv/config';
 
+// Built into Node.js itself (18.5+ behind a flag, unflagged by 23.4+) — no
+// native module to compile, so nothing for a host's install-script gate to
+// block. Its API is intentionally modeled on better-sqlite3 (same .prepare()
+// / .get() / .all() / .run() shapes), which is what this file used before.
 const dbPath = process.env.DB_PATH
   ? path.resolve(process.env.DB_PATH)
   : path.resolve('licenses.db');
 
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+const db = new DatabaseSync(dbPath);
+db.exec('PRAGMA journal_mode = WAL');
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS licenses (
